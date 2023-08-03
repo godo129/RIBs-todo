@@ -13,9 +13,10 @@ final class TodoAddViewController: UIViewController, ViewControllerInitiable {
     @IBOutlet weak var dateSelectButton: UIButton!
     @IBOutlet weak var todoTitleLabel: UITextField!
     @IBOutlet weak var todoContentLabel: UITextView!
-    @IBOutlet weak var todoImageView: UIImageView!
+    @IBOutlet weak var todoImageSelectButton: UIButton!
     private var selectedDate = Date()
     private let todoRepository: TodoRepositoryProtocol = TodoRepository(todoProvider: TodoProvider.instance)
+    private let imageProvider: ImageProvider = .init()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,17 @@ final class TodoAddViewController: UIViewController, ViewControllerInitiable {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    @IBAction func todoImageSelectButtonTapped(_ sender: Any) {
+        Task {
+            do {
+                let imageData = try await imageProvider.pickImage(self)
+                todoImageSelectButton.setImage(UIImage(data: imageData), for: .normal)
+            } catch {
+                presentAlertController(title: error.localizedDescription, message: nil)
+            }
+        }
     }
     
     private func configure() {
@@ -66,7 +78,7 @@ extension TodoAddViewController {
     }
     
     @objc func addButtonTapped() {
-        let todo = Todo(title: todoTitleLabel.text ?? "", context: todoContentLabel.text, image: todoImageView.image?.jpegData(compressionQuality: 0.8), targetTime: selectedDate)
+        let todo = Todo(title: todoTitleLabel.text ?? "", context: todoContentLabel.text, image: todoImageSelectButton.imageView?.image?.jpegData(compressionQuality: 0.8), targetTime: selectedDate)
         todoRepository.insertTodo(todo)
         dump(todoRepository.getAllTodoList())
         navigationController?.popViewController(animated: true)

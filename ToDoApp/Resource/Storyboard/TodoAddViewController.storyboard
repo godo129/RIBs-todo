@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -22,12 +23,24 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="tCJ-u2-SDA">
                                         <rect key="frame" x="10" y="10" width="373" height="849.33333333333337"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="trash.square.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="CEZ-Rv-28O">
-                                                <rect key="frame" x="0.0" y="1.6666666666666572" width="373" height="197"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M4Q-MT-TPo">
+                                                <rect key="frame" x="0.0" y="0.0" width="373" height="200"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="200" id="yiW-Nt-V5v"/>
+                                                    <constraint firstAttribute="height" constant="200" id="Y8Z-m7-9iA"/>
                                                 </constraints>
-                                            </imageView>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Button">
+                                                    <imageReference key="image" image="eraser.fill" catalog="system" symbolScale="default"/>
+                                                </buttonConfiguration>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="todoImageSelectButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="hFp-C9-IiR"/>
+                                                </connections>
+                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="할일 제목" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tOv-4q-jAz">
                                                 <rect key="frame" x="0.0" y="220" width="373" height="20.333333333333343"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -128,7 +141,7 @@
                         <outlet property="dateSelectButton" destination="cAT-Fx-GhC" id="46p-XO-QHj"/>
                         <outlet property="scrollView" destination="YEQ-vX-Q7k" id="rMW-P4-W1C"/>
                         <outlet property="todoContentLabel" destination="kcr-Q4-vbW" id="TIl-6S-C57"/>
-                        <outlet property="todoImageView" destination="CEZ-Rv-28O" id="kCf-LP-a9O"/>
+                        <outlet property="todoImageSelectButton" destination="M4Q-MT-TPo" id="4Jp-Fg-bJ1"/>
                         <outlet property="todoTitleLabel" destination="jc7-J2-Ssv" id="sI9-UF-cLm"/>
                     </connections>
                 </viewController>
@@ -146,7 +159,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="trash.square.fill" catalog="system" width="128" height="114"/>
+        <image name="eraser.fill" catalog="system" width="128" height="119"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

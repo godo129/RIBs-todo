@@ -41,6 +41,8 @@
 		F19D0A2B2A77E825007D96B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F19D0A292A77E825007D96B8 /* LaunchScreen.storyboard */; };
 		F19D0A332A77E83E007D96B8 /* HomeView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F19D0A322A77E83E007D96B8 /* HomeView.storyboard */; };
 		F19D0A352A77E875007D96B8 /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19D0A342A77E875007D96B8 /* TodoListViewController.swift */; };
+		F1B071782A7BECE40047BEBF /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B071772A7BECE30047BEBF /* UIViewController+.swift */; };
+		F1B0717A2A7BEF960047BEBF /* ImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B071792A7BEF960047BEBF /* ImageProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +104,8 @@
 		F19D0A342A77E875007D96B8 /* TodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewController.swift; sourceTree = "<group>"; };
 		F19D0A362A77E911007D96B8 /* TodoListViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TodoListViewController.storyboard; sourceTree = "<group>"; };
 		F19D0A382A77FBEE007D96B8 /* NSObject+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
+		F1B071772A7BECE30047BEBF /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		F1B071792A7BEF960047BEBF /* ImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +174,7 @@
 				F11BA1512A79705B00C6024F /* UINavigationBar+.swift */,
 				F11BA15E2A7AB9DE00C6024F /* UIView+Design.swift */,
 				F11BA16A2A7AC61C00C6024F /* Date+Format.swift */,
+				F1B071772A7BECE30047BEBF /* UIViewController+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -188,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				F11BA1572A7AA96200C6024F /* TodoProvider.swift */,
+				F1B071792A7BEF960047BEBF /* ImageProvider.swift */,
 			);
 			path = Provider;
 			sourceTree = "<group>";
@@ -373,6 +379,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1B0717A2A7BEF960047BEBF /* ImageProvider.swift in Sources */,
 				F11BA16B2A7AC61C00C6024F /* Date+Format.swift in Sources */,
 				F11BA14D2A79525500C6024F /* ToDoCompleteCollectionViewCell.swift in Sources */,
 				F11BA1502A7962EE00C6024F /* UISwitch+.swift in Sources */,
@@ -390,6 +397,7 @@
 				F11BA1582A7AA96200C6024F /* TodoProvider.swift in Sources */,
 				F19D0A1F2A77E823007D96B8 /* AppDelegate.swift in Sources */,
 				F11BA15F2A7AB9DE00C6024F /* UIView+Design.swift in Sources */,
+				F1B071782A7BECE40047BEBF /* UIViewController+.swift in Sources */,
 				F19D0A212A77E823007D96B8 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -601,6 +609,7 @@
 				DEVELOPMENT_TEAM = KD3GVSQ9P4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToDoApp/App/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "갤러리 접근이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = HomeView;
@@ -630,6 +639,7 @@
 				DEVELOPMENT_TEAM = KD3GVSQ9P4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToDoApp/App/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "갤러리 접근이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = HomeView;
