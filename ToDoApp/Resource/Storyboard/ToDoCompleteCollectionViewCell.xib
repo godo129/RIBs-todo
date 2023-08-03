@@ -19,8 +19,11 @@
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="0rZ-F8-qQi">
                         <rect key="frame" x="20" y="20" width="280" height="10"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Wp-O1-2hO">
+                                <rect key="frame" x="0.0" y="0.0" width="169.66666666666666" height="10"/>
+                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="fPQ-KK-jnD">
-                                <rect key="frame" x="0.0" y="0.0" width="221" height="10"/>
+                                <rect key="frame" x="179.66666666666666" y="0.0" width="41.333333333333343" height="10"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0pJ-2m-qFw">
                                         <rect key="frame" x="0.0" y="0.0" width="41.333333333333336" height="5"/>
@@ -38,6 +41,9 @@
                             </stackView>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uTB-nF-FAQ">
                                 <rect key="frame" x="231" y="0.0" width="51" height="10"/>
+                                <connections>
+                                    <action selector="switchValueChanged:" destination="gTV-IL-0wX" eventType="valueChanged" id="IZR-7b-FPI"/>
+                                </connections>
                             </switch>
                         </subviews>
                     </stackView>
@@ -55,6 +61,7 @@
                 <outlet property="isFinishSwitchButton" destination="uTB-nF-FAQ" id="XEj-Xa-p4B"/>
                 <outlet property="toDoDateLabel" destination="0pJ-2m-qFw" id="KLQ-V2-gej"/>
                 <outlet property="toDoTitleLabel" destination="Ex4-gb-j2E" id="o3m-cE-HgI"/>
+                <outlet property="todoImageView" destination="0Wp-O1-2hO" id="tAO-ZE-YPQ"/>
             </connections>
             <point key="canvasLocation" x="184.73282442748092" y="-11.267605633802818"/>
         </collectionViewCell>

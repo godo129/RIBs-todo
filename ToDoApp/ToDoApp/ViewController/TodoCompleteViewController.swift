@@ -38,7 +38,7 @@ extension TodoCompleteViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ToDoCompleteCollectionViewCell.identifier, for: indexPath) as? ToDoCompleteCollectionViewCell else {return .init()}
         let todo = todoRepository.getCompletTodoList()[indexPath.row]
-        cell.bind(todo)
+        cell.bind(todo, todoRepository)
         return cell
     }
     
