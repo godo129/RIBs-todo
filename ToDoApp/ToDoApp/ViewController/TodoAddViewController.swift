@@ -31,7 +31,7 @@ final class TodoAddViewController: UIViewController, ViewControllerInitiable {
         Task {
             do {
                 let imageData = try await imageProvider.pickImage(self)
-                todoImageSelectButton.setImage(UIImage(data: imageData), for: .normal)
+                todoImageSelectButton.setImage(UIImage(data: imageData)?.resize(targetSize: .init(width: 200, height: 200)), for: .normal)
             } catch {
                 presentAlertController(title: error.localizedDescription, message: nil)
             }

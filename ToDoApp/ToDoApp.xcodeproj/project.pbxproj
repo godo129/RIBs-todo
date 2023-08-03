@@ -43,6 +43,7 @@
 		F19D0A352A77E875007D96B8 /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19D0A342A77E875007D96B8 /* TodoListViewController.swift */; };
 		F1B071782A7BECE40047BEBF /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B071772A7BECE30047BEBF /* UIViewController+.swift */; };
 		F1B0717A2A7BEF960047BEBF /* ImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B071792A7BEF960047BEBF /* ImageProvider.swift */; };
+		F1B0717C2A7C137E0047BEBF /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B0717B2A7C137E0047BEBF /* UIImage+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,7 @@
 		F19D0A382A77FBEE007D96B8 /* NSObject+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
 		F1B071772A7BECE30047BEBF /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		F1B071792A7BEF960047BEBF /* ImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProvider.swift; sourceTree = "<group>"; };
+		F1B0717B2A7C137E0047BEBF /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +177,7 @@
 				F11BA15E2A7AB9DE00C6024F /* UIView+Design.swift */,
 				F11BA16A2A7AC61C00C6024F /* Date+Format.swift */,
 				F1B071772A7BECE30047BEBF /* UIViewController+.swift */,
+				F1B0717B2A7C137E0047BEBF /* UIImage+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				F11BA1692A7AC13200C6024F /* DatePickerPresentationController.swift in Sources */,
 				F19D0A352A77E875007D96B8 /* TodoListViewController.swift in Sources */,
 				F11BA15C2A7AACC800C6024F /* TodoAddViewController.swift in Sources */,
+				F1B0717C2A7C137E0047BEBF /* UIImage+.swift in Sources */,
 				F11BA1582A7AA96200C6024F /* TodoProvider.swift in Sources */,
 				F19D0A1F2A77E823007D96B8 /* AppDelegate.swift in Sources */,
 				F11BA15F2A7AB9DE00C6024F /* UIView+Design.swift in Sources */,
