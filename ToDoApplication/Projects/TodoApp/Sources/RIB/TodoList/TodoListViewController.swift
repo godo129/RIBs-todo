@@ -5,9 +5,19 @@
 //  Created by hong on 2023/07/31.
 //
 
+import RIBs
+import RxSwift
 import UIKit
 
-final class TodoListViewController: UIViewController {
+protocol TodoListPresentableListener: AnyObject {
+    // TODO: Declare properties and methods that the view controller can invoke to perform
+    // business logic, such as signIn(). This protocol is implemented by the corresponding
+    // interactor class.
+}
+
+final class TodoListViewController: UIViewController, TodoListPresentable, TodoListViewControllable, ViewControllerInitiable {
+
+    weak var listener: TodoListPresentableListener?
     
     @IBOutlet weak var todoTableView: UITableView!
     private let todoRepository: TodoRepositoryProtocol = TodoRepository(todoProvider: TodoProvider.instance)

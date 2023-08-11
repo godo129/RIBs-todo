@@ -7,11 +7,12 @@
 
 import UIKit
 
-final class DatePickerViewController: UIViewController {
+final class DatePickerViewController: UIViewController, ViewControllerInitiable {
 
     @IBOutlet weak var datePicker: UIDatePicker!
     var date: ((Date)->Void)?
     var selectedDate = Date()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setAttributes()
