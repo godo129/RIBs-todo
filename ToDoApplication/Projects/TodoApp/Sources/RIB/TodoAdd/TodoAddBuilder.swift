@@ -9,13 +9,17 @@
 import RIBs
 
 protocol TodoAddDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
+    var todoRepository: TodoRepositoryProtocol { get }
+    var imageRepository: ImageRepositoryProtocol { get }
 }
 
 final class TodoAddComponent: Component<TodoAddDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+    fileprivate var todoRepositorty: TodoRepositoryProtocol {
+        dependency.todoRepository
+    }
+    fileprivate var imageRepository: ImageRepositoryProtocol {
+        dependency.imageRepository
+    }
 }
 
 // MARK: - Builder
@@ -33,7 +37,11 @@ final class TodoAddBuilder: Builder<TodoAddDependency>, TodoAddBuildable {
     func build(withListener listener: TodoAddListener) -> TodoAddRouting {
         let component = TodoAddComponent(dependency: dependency)
         let viewController = TodoAddViewController.viewControllerInstance() ?? TodoAddViewController()
-        let interactor = TodoAddInteractor(presenter: viewController as! TodoAddPresentable)
+        let interactor = TodoAddInteractor(
+            presenter: viewController as! TodoAddPresentable,
+            todoRepository: component.todoRepositorty,
+            imageRepository: component.imageRepository
+        )
         interactor.listener = listener
         return TodoAddRouter(interactor: interactor, viewController: viewController as! TodoAddViewControllable)
     }

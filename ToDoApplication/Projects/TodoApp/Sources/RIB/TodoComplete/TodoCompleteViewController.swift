@@ -10,9 +10,10 @@ import RxSwift
 import UIKit
 
 protocol TodoCompletePresentableListener: AnyObject {
-    // TODO: Declare properties and methods that the view controller can invoke to perform
-    // business logic, such as signIn(). This protocol is implemented by the corresponding
-    // interactor class.
+    var fetchedTodos: PublishSubject<[Todo]> { get }
+    func todoStatusChagned(from: Todo, to: Todo)
+    func viewDidLoad()
+
 }
 
 final class TodoCompleteViewController: UIViewController, TodoCompletePresentable, TodoCompleteViewControllable, ViewControllerInitiable {
@@ -20,15 +21,14 @@ final class TodoCompleteViewController: UIViewController, TodoCompletePresentabl
     weak var listener: TodoCompletePresentableListener?
 
     @IBOutlet weak var todoCompletCollectionView: UICollectionView!
-    private let todoRepository: TodoRepositoryProtocol = TodoRepository(todoProvider: TodoProvider.instance)
+    private let disposeBag = DisposeBag()
+    private var todos: [Todo] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         configure()
+        bind()
+        listener?.viewDidLoad()
     }
     
     private func configure() {
@@ -41,20 +41,33 @@ final class TodoCompleteViewController: UIViewController, TodoCompletePresentabl
         todoCompletCollectionView.delegate = self
         todoCompletCollectionView.dataSource = self
 
-
+    }
+    
+    private func bind() {
+        listener?.fetchedTodos
+            .subscribe(onNext: { [weak self] todos in
+                self?.todos = todos
+                DispatchQueue.main.async {
+                    self?.todoCompletCollectionView.reloadData()
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
 }
 
 extension TodoCompleteViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        todoRepository.getCompletTodoList().count
+        return todos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ToDoCompleteCollectionViewCell.identifier, for: indexPath) as? ToDoCompleteCollectionViewCell else {return .init()}
-        let todo = todoRepository.getCompletTodoList()[indexPath.row]
-        cell.bind(todo, todoRepository)
+        let todo = todos[indexPath.row]
+        cell.bind(todo)
+        cell.todoChanged = { [weak self] before, after in
+            self?.listener?.todoStatusChagned(from: before, to: after)
+        }
         return cell
     }
     

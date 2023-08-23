@@ -24,5 +24,5 @@ public final class Todo: Codable {
 }
 
 public extension Todo{
-    public static var mock = Todo(title: "테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트", context: "테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트", targetTime: Date())
+    static var mock = Todo(title: "테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트", context: "테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트", targetTime: Date())
 }

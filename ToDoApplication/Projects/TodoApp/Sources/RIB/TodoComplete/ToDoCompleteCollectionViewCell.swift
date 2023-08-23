@@ -14,14 +14,14 @@ final class ToDoCompleteCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var toDoTitleLabel: UILabel!
     @IBOutlet weak var isFinishSwitchButton: UISwitch!
     static let identifier = String(describing: ToDoCompleteCollectionViewCell.self)
-    var repository: TodoRepositoryProtocol? = nil
     private var todo: Todo? = nil
+    var todoChanged: ((Todo, Todo) -> Void)? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
 
-    func bind(_ todo: Todo, _ repository: TodoRepositoryProtocol) {
+    func bind(_ todo: Todo) {
         if let imageData = todo.image {
             todoImageView.image = UIImage(data: imageData)
         }
@@ -29,14 +29,13 @@ final class ToDoCompleteCollectionViewCell: UICollectionViewCell {
         toDoTitleLabel.text = todo.title
         isFinishSwitchButton.isOn = true
         self.todo = todo
-        self.repository = repository
     }
     
     @IBAction func switchValueChanged(_ sender: Any) {
-        guard let todo,
-              let repository else {return}
+        guard let todo else {return}
         let newTodo = Todo(title: todo.title, context: todo.context, image: todo.image, targetTime: todo.targetTime, isCompleted: isFinishSwitchButton.isOn)
-        dump(repository.updateTodo(from: todo, to: newTodo))
+        todoChanged!(todo, newTodo)
+        self.todo = newTodo
     }
     
     override func prepareForReuse() {
@@ -45,6 +44,5 @@ final class ToDoCompleteCollectionViewCell: UICollectionViewCell {
         toDoTitleLabel.text = ""
         isFinishSwitchButton.isOn = true
         self.todo = nil
-        self.repository = nil
     }
 }

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -11,40 +12,109 @@
         <!--Todo View Controller-->
         <scene sceneID="JCi-BL-B5Z">
             <objects>
-                <viewController storyboardIdentifier="TodoViewController" id="bjr-gm-aOr" customClass="TodoViewController" customModule="ToDoApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TodoViewController" id="bjr-gm-aOr" customClass="TodoViewController" customModule="ToDoApp" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Il-tH-jw8" customClass="HomeViewCont" customModule="ToDoApp">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ZC-HB-2P1">
-                                <rect key="frame" x="138" y="269" width="117" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="일정 확인하기"/>
-                                <connections>
-                                    <segue destination="XX9-xg-rrb" kind="show" id="tne-B7-zXL"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Tt-jZ-VLh">
-                                <rect key="frame" x="138" y="393" width="117" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="완료현황 보기"/>
-                                <connections>
-                                    <segue destination="9bg-E7-hiG" kind="show" id="kII-tm-Fh4"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" distribution="fillEqually" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="eNq-wq-zfY">
+                                <rect key="frame" x="0.0" y="203" width="353" height="200"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="29Y-BW-eJd">
+                                        <rect key="frame" x="0.0" y="25" width="166.66666666666666" height="150"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calendar" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ZLi-KZ-fci">
+                                                <rect key="frame" x="58.333333333333329" y="1.6666666666666643" width="50" height="47"/>
+                                                <color key="tintColor" systemColor="labelColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="50" id="FRv-k6-aXf"/>
+                                                    <constraint firstAttribute="height" constant="50" id="wxe-yU-CJx"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="남은 일정 0개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qnI-aP-C3S">
+                                                <rect key="frame" x="37.000000000000007" y="50" width="92.666666666666686" height="100"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="150" id="Rsc-e2-2cC"/>
+                                            <constraint firstItem="ZLi-KZ-fci" firstAttribute="top" secondItem="29Y-BW-eJd" secondAttribute="top" constant="20" id="nf5-n5-OOt"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vgM-u7-DtS">
+                                        <rect key="frame" x="186.66666666666663" y="25" width="166.33333333333337" height="150"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.seal" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="gYH-qx-4MU">
+                                                <rect key="frame" x="58.000000000000028" y="-0.66666666666666785" width="50" height="51.333333333333343"/>
+                                                <color key="tintColor" systemColor="systemRedColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="1fQ-PW-Wtw"/>
+                                                    <constraint firstAttribute="width" constant="50" id="P2i-5O-Gjb"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="완료한 일정 0개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ct-Mc-CMu">
+                                                <rect key="frame" x="29.333333333333336" y="50" width="107.33333333333331" height="100"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="gYH-qx-4MU" firstAttribute="top" secondItem="vgM-u7-DtS" secondAttribute="top" constant="20" id="dXR-Gt-Huc"/>
+                                            <constraint firstAttribute="height" constant="150" id="nM7-Nr-w54"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="1" green="0.46436479489999999" blue="0.026351693669999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="5yr-2y-s9d"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="UtE-w6-u6S"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="UtE-w6-u6S" firstAttribute="trailing" secondItem="eNq-wq-zfY" secondAttribute="trailing" constant="20" id="hew-vK-uxX"/>
+                            <constraint firstItem="eNq-wq-zfY" firstAttribute="leading" secondItem="UtE-w6-u6S" secondAttribute="leading" constant="20" id="qDW-e0-2cV"/>
+                            <constraint firstItem="eNq-wq-zfY" firstAttribute="top" secondItem="UtE-w6-u6S" secondAttribute="top" constant="50" id="w8C-Gh-6S4"/>
+                        </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="cJn-LZ-veS"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="todoCompletListView" destination="vgM-u7-DtS" id="Wj9-Qo-UVe"/>
+                        <outlet property="todoCompleteListViewLabel" destination="0Ct-Mc-CMu" id="lem-aH-P0M"/>
+                        <outlet property="todoListView" destination="29Y-BW-eJd" id="cCF-ak-F8p"/>
+                        <outlet property="todoListViewLabel" destination="qnI-aP-C3S" id="5Cx-lA-3XB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uaP-wb-x6S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="410" y="-282"/>
+            <point key="canvasLocation" x="409.92366412213738" y="-282.3943661971831"/>
         </scene>
         <!--TodoListViewController-->
         <scene sceneID="EeK-Nz-cfe">
@@ -78,8 +148,16 @@
         </scene>
     </scenes>
     <resources>
+        <image name="calendar" catalog="system" width="128" height="107"/>
+        <image name="checkmark.seal" catalog="system" width="128" height="124"/>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -9,7 +9,11 @@ import UIKit
 import PhotosUI
 import Combine
 
-final class ImageProvider: NSObject {
+protocol ImageProviderProtocol {
+    func pickImage(_ viewController: UIViewController) async throws -> Data
+}
+
+final class ImageProvider: NSObject, ImageProviderProtocol {
     
     enum ImageProviderError: LocalizedError {
         case phpickerAuthorizationNotAuthoried

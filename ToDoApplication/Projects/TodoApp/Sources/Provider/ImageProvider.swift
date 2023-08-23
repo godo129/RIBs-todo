@@ -9,7 +9,11 @@ import UIKit
 import PhotosUI
 import Combine
 
-final class ImageProvider: NSObject {
+protocol ImageProviderProtocol {
+    func pickImage(_ viewController: UIViewController) async throws -> UIImage
+}
+
+final class ImageProvider: NSObject, ImageProviderProtocol {
     
     enum ImageProviderError: LocalizedError {
         case phpickerAuthorizationNotAuthoried
@@ -27,7 +31,7 @@ final class ImageProvider: NSObject {
     
     private let imagePickerController: UIImagePickerController
     private let phpickerController: PHPickerViewController
-    private var imageContinuation: CheckedContinuation<Data, Error>? = nil
+    private var imageContinuation: CheckedContinuation<UIImage, Error>? = nil
     
     override init() {
         
@@ -44,7 +48,7 @@ final class ImageProvider: NSObject {
         phpickerController.delegate = self
     }
     
-    func pickImage(_ viewController: UIViewController) async throws -> Data {
+    func pickImage(_ viewController: UIViewController) async throws -> UIImage {
         
         return try await withCheckedThrowingContinuation { continuation in
             Task {
@@ -82,13 +86,8 @@ extension ImageProvider: UIImagePickerControllerDelegate, UINavigationController
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
             picker.dismiss(animated: true) { [weak self] in
-                if let imageData = image.jpegData(compressionQuality: 0.8) {
-                    self?.imageContinuation?.resume(returning: imageData)
+                    self?.imageContinuation?.resume(returning: image)
                     self?.imageContinuation = nil
-                } else {
-                    self?.imageContinuation?.resume(throwing: ImageProviderError.imageCantFetch)
-                    self?.imageContinuation = nil
-                }
             }
         }
     }
@@ -100,15 +99,12 @@ extension ImageProvider: PHPickerViewControllerDelegate {
         if let itemProvider = results.last?.itemProvider,
            itemProvider.canLoadObject(ofClass: UIImage.self) { // 3
             itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in // 4
-                if let image = image as? UIImage,
-                   let imageData = image.jpegData(compressionQuality: 0.8) {
-                    self?.imageContinuation?.resume(returning: imageData)
-                    self?.imageContinuation = nil
-                } else {
-                    self?.imageContinuation?.resume(throwing: ImageProviderError.imageCantFetch)
+                if let image = image as? UIImage {
+                    self?.imageContinuation?.resume(returning: image)
                     self?.imageContinuation = nil
                 }
             }
+                
         } else {
             imageContinuation?.resume(throwing: ImageProviderError.imageCantFetch)
             imageContinuation = nil

@@ -7,13 +7,13 @@
 
 import Foundation
 
-public extension Date {
-    public enum formatType: String {
+extension Date {
+    enum FormatType: String {
         /// YYYY-MM-dd HH:mm
         case yearMonthDateTime = "YYYY-MM-dd HH:mm"
     }
     
-    public func formatToString(_ format: formatType) -> String {
+    func formatToString(_ format: FormatType) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format.rawValue
         dateFormatter.locale = Locale(identifier: "kor")
@@ -21,7 +21,7 @@ public extension Date {
         return dateFormatter.string(from: self)
     }
     
-    public var yearMonthDateTime: String {
+    var yearMonthDateTime: String {
         formatToString(.yearMonthDateTime)
     }
 }

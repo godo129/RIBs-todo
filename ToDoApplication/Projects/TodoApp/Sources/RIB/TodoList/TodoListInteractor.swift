@@ -26,12 +26,16 @@ final class TodoListInteractor: PresentableInteractor<TodoListPresentable>, Todo
 
     weak var router: TodoListRouting?
     weak var listener: TodoListListener?
-
-    // TODO: Add additional dependencies to constructor. Do not perform any logic
-    // in constructor.
-    override init(presenter: TodoListPresentable) {
+    private let todoRepository: TodoRepositoryProtocol
+    var fetchedTodos: PublishSubject<[Todo]> = .init()
+    
+    init(
+        presenter: TodoListPresentable,
+        todoRepository: TodoRepositoryProtocol
+    ) {
+        self.todoRepository = todoRepository
         super.init(presenter: presenter)
-        presenter.listener = self
+        presenter.listener = self        
     }
 
     override func didBecomeActive() {
@@ -42,5 +46,13 @@ final class TodoListInteractor: PresentableInteractor<TodoListPresentable>, Todo
     override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
+    }
+    
+    func todoStatusChagned(from: Todo, to: Todo) {
+        dump(todoRepository.updateTodo(from: from, to: to))
+    }
+    
+    func viewDidLoad() {
+        fetchedTodos.on(.next(todoRepository.getNotCompletTodoList()))
     }
 }

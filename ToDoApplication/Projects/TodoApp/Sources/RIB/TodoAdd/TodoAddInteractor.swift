@@ -20,13 +20,13 @@ protocol TodoAddPresentable: Presentable {
 }
 
 protocol TodoAddListener: AnyObject {
-    // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
+    
 }
 
 final class TodoAddInteractor: PresentableInteractor<TodoAddPresentable>, TodoAddInteractable, TodoAddPresentableListener {
     
-    private let todoRepository: TodoRepositoryProtocol = TodoRepository(todoProvider: TodoProvider.instance)
-    private let imageProvider: ImageProvider = .init()
+    private let todoRepository: TodoRepositoryProtocol
+    private let imageRepository: ImageRepositoryProtocol
     
     var imageData: PublishSubject<Data> = .init()
     var imageFetchErrorOcurred: PublishSubject<String> = .init()
@@ -38,7 +38,13 @@ final class TodoAddInteractor: PresentableInteractor<TodoAddPresentable>, TodoAd
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
-    override init(presenter: TodoAddPresentable) {
+    init(
+        presenter: TodoAddPresentable,
+        todoRepository: TodoRepositoryProtocol,
+        imageRepository: ImageRepositoryProtocol
+    ) {
+        self.todoRepository = todoRepository
+        self.imageRepository = imageRepository
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -66,7 +72,7 @@ final class TodoAddInteractor: PresentableInteractor<TodoAddPresentable>, TodoAd
                     imageFetchErrorOcurred.on(.next("이미지 선택에 오류가 발생했습니다."))
                     return
                 }
-                let imageDataValue = try await imageProvider.pickImage(viewController)
+                let imageDataValue = try await imageRepository.getPngData(viewController)
                 imageData.on(.next(imageDataValue))
             } catch {
                 imageFetchErrorOcurred.on(.next(error.localizedDescription))

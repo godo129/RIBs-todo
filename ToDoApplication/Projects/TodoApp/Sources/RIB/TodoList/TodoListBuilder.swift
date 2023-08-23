@@ -3,19 +3,19 @@
 //  ToDoApp
 //
 //  Created by hong on 2023/08/11.
-//  Copyright © 2023 co.godo. All rights reserved.
+//  Copyright © 2023 co.godo. All rights reserved
 //
 
 import RIBs
 
 protocol TodoListDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
+    var todoRepository: TodoRepositoryProtocol { get }
 }
 
 final class TodoListComponent: Component<TodoListDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+    var todoRepository: TodoRepositoryProtocol {
+        dependency.todoRepository
+    }
 }
 
 // MARK: - Builder
@@ -33,7 +33,10 @@ final class TodoListBuilder: Builder<TodoListDependency>, TodoListBuildable {
     func build(withListener listener: TodoListListener) -> TodoListRouting {
         let component = TodoListComponent(dependency: dependency)
         let viewController = TodoListViewController.viewControllerInstance() ?? TodoListViewController()
-        let interactor = TodoListInteractor(presenter: viewController as! TodoListPresentable)
+        let interactor = TodoListInteractor(
+            presenter: viewController as! TodoListPresentable,
+            todoRepository: component.todoRepository
+        )
         interactor.listener = listener
         return TodoListRouter(interactor: interactor, viewController: viewController as! TodoListViewControllable)
     }

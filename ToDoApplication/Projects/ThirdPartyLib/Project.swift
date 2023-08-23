@@ -13,12 +13,14 @@ let project = Project.makeModule(
     product: .framework,
     organizationName: "co.godo",
     packages: [
-        .Firebase
+        .Firebase,
+        .Ribs
     ],
     dependencies: [
         .SPM.FirebaseMessaging,
         .SPM.FirebaseAnalytics,
-        .SPM.FirebaseCrashlytics
+        .SPM.FirebaseCrashlytics,
+        .SPM.Ribs
     ],
     resources: ["Sources/**"]
 )

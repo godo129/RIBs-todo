@@ -9,13 +9,13 @@
 import RIBs
 
 protocol TodoCompleteDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
+    var todoRepository: TodoRepositoryProtocol { get }
 }
 
 final class TodoCompleteComponent: Component<TodoCompleteDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+    fileprivate var todoRepository: TodoRepositoryProtocol {
+        dependency.todoRepository
+    }
 }
 
 // MARK: - Builder
@@ -33,7 +33,10 @@ final class TodoCompleteBuilder: Builder<TodoCompleteDependency>, TodoCompleteBu
     func build(withListener listener: TodoCompleteListener) -> TodoCompleteRouting {
         let component = TodoCompleteComponent(dependency: dependency)
         let viewController = TodoCompleteViewController.viewControllerInstance() ?? TodoCompleteViewController()
-        let interactor = TodoCompleteInteractor(presenter: viewController as! TodoCompletePresentable)
+        let interactor = TodoCompleteInteractor(
+            presenter: viewController as! TodoCompletePresentable,
+            todoRepository: component.todoRepository
+        )
         interactor.listener = listener
         return TodoCompleteRouter(interactor: interactor, viewController: viewController as! TodoCompleteViewControllable)
     }

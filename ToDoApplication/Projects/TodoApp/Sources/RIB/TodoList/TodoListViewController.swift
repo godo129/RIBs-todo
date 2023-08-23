@@ -10,9 +10,9 @@ import RxSwift
 import UIKit
 
 protocol TodoListPresentableListener: AnyObject {
-    // TODO: Declare properties and methods that the view controller can invoke to perform
-    // business logic, such as signIn(). This protocol is implemented by the corresponding
-    // interactor class.
+    var fetchedTodos: PublishSubject<[Todo]> { get }
+    func todoStatusChagned(from: Todo, to: Todo)
+    func viewDidLoad()
 }
 
 final class TodoListViewController: UIViewController, TodoListPresentable, TodoListViewControllable, ViewControllerInitiable {
@@ -20,11 +20,14 @@ final class TodoListViewController: UIViewController, TodoListPresentable, TodoL
     weak var listener: TodoListPresentableListener?
     
     @IBOutlet weak var todoTableView: UITableView!
-    private let todoRepository: TodoRepositoryProtocol = TodoRepository(todoProvider: TodoProvider.instance)
+    private let disposeBag = DisposeBag()
+    private var todos: [Todo] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        bind()
+        listener?.viewDidLoad()
     }
     
     private func configure() {
@@ -36,17 +39,33 @@ final class TodoListViewController: UIViewController, TodoListPresentable, TodoL
         todoTableView.dataSource = self
         todoTableView.reloadData()
     }
+    
+    private func bind() {
+        listener?.fetchedTodos
+            .subscribe(onNext: { [weak self] todos in
+                self?.todos = todos
+                DispatchQueue.main.async {
+                    self?.todoTableView.reloadData()
+                }
+            })
+            .disposed(by: disposeBag)
+    }
 }
 
 extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todoRepository.getNotCompletTodoList().count
+        return todos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TodoTableViewCell.identifier, for: indexPath) as? TodoTableViewCell else { return UITableViewCell() }
-        let todo = todoRepository.getNotCompletTodoList()[indexPath.row]
-        cell.bind(todo, todoRepository)
+        let todo = todos[indexPath.row]
+        cell.bind(todo)
+        cell.changedTodo = { [weak self] before, after in
+            self?.listener?.todoStatusChagned(from: before, to: after)
+        }
         return cell
     }
+    
+    
 }
