@@ -17,14 +17,14 @@ public protocol RemoteTargetType {
     var base: String { get }
     var path: String { get }
     var httpMethod: HTTPMethod { get }
-    var data: Data? { get }
+    var data: Encodable? { get }
     var headers: [String: String]? { get }
     var paramters: [String: String]? { get }
     func asRequest() -> URLRequest?
 }
 
 extension RemoteTargetType {
-    func asRequest() -> URLRequest? {
+    public func asRequest() -> URLRequest? {
         guard var urlComponents = URLComponents(string: base + path) else {
             return nil
         }
@@ -38,7 +38,9 @@ extension RemoteTargetType {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = httpMethod.rawValue
         urlRequest.allHTTPHeaderFields = headers
-        urlRequest.httpBody = data
+        if let enocodedData = try? data?.toJson() {
+            urlRequest.httpBody = enocodedData
+        }
         print("-------")
         print("🚀🚀🚀🚀")
         print("Request")

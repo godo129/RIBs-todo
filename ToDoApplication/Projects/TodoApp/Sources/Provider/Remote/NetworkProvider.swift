@@ -47,7 +47,7 @@ public struct NetworkProvider<T: RemoteTargetType> {
                     continuation.resume(throwing: NetworkProviderError.responseDataDeosntExist)
                     return
                 }
-                print("responseData: \(String(data: data, encoding: .utf8) ?? "")")
+                print("responseData: \(String(data: data, encoding: .utf8) ?? "") - \(data)")
                 
                 continuation.resume(returning: data)
             }
