@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import NetworkProvider
 
 public enum AnyAPI: RemoteTargetType {
     

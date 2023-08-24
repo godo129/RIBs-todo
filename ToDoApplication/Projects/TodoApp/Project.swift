@@ -9,9 +9,10 @@ let project = Project.makeModule(
 //    entitlements: "Projects/TodoApp/Derived/Sources/TodoApp.entitlements",
     dependencies: [
         .project(target: "ThirdPartyLib", path: .relativeToRoot("Projects/ThirdPartyLib")),
+        .project(target: "NetworkProvider", path: .relativeToRoot("Projects/NetworkProvider"))
     ],
     resources: ["Resources/**"],
-    //    infoPlist: .file(path: "Derived/InfoPlists/TodoApp-Info.plist")
+//    infoPlist: .file(path: "Derived/InfoPlists/TodoApp-Info.plist"),
     infoPlist: .extendingDefault(with: [
         "CFBundleVersion": "1",
         "UILaunchStoryboardName": "LaunchScreen",
@@ -30,5 +31,5 @@ let project = Project.makeModule(
         "UIBackgroundModes": "remote-notification",
         "NSPhotoLibraryUsageDescription": "포토 라이브러리에 접근하기 위해 권한이 필요합니다."
     ]),
-    additionalTargets: ["Resources"]
+    additionalTargets: ["Resources", "Features"]
 )
