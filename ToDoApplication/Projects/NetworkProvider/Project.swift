@@ -11,7 +11,7 @@ import ProjectDescriptionHelpers
 let project = Project.makeModule(
     name: "NetworkProvider",
     platform: .iOS,
-    product: .framework,
+    product: .staticLibrary,
     organizationName: "co.godo",
     resources: ["Sources/**"]
 )
