@@ -8,28 +8,44 @@
 import XCTest
 
 final class UnitTest: XCTestCase {
+    
+    private let mockAPIProvider: NetworkProvider<MockAPI> = .init()
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+    func testAPICallSuccess() throws {
+        let expectation = XCTestExpectation()
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        Task {
+            for mock in MockAPI.allCases {
+                if mock == .fail {
+                    continue
+                }
+                do {
+                    let datas = try await mockAPIProvider.request(mock).toObject([MockModel].self)
+                    XCTAssertEqual(datas.count, mock.count)
+                } catch {
+                    XCTFail()
+                }
+            }
+            expectation.fulfill()
         }
-    }
 
+        wait(for: [expectation], timeout: 1.0)
+    }
+    
+    func testAPICallFail() throws {
+        let expectation = XCTestExpectation()
+
+        Task {
+            do {
+                _ = try await mockAPIProvider.request(.fail)
+                XCTFail()
+            } catch {
+                XCTAssert(true)
+            }
+            expectation.fulfill()
+
+        }
+
+        wait(for: [expectation], timeout: 1.0)
+    }
 }

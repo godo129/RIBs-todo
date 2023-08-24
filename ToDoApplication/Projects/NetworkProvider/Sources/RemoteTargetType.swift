@@ -61,3 +61,15 @@ extension Encodable {
         }
     }
 }
+
+extension Data {
+    func toObject<T: Decodable>(_ type: T.Type) throws -> T {
+        do {
+            let docodedData = try JSONDecoder().decode(type, from: self)
+            return docodedData
+        } catch {
+            print(error)
+            throw error
+        }
+    }
+}
