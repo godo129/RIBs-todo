@@ -15,6 +15,7 @@ protocol TodoListPresentableListener: AnyObject {
     func viewDidLoad()
     func viewWillAppear()
     func todoCellTouched(_ todo: Todo?)
+    func deleteButtonTapped(_ todo: Todo)
 }
 
 final class TodoListViewController: UIViewController, TodoListPresentable, TodoListViewControllable, ViewControllerInitiable {
@@ -72,6 +73,14 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         cell.bind(todo)
         cell.changedTodo = { [weak self] before, after in
             self?.listener?.todoStatusChagned(from: before, to: after)
+        }
+        cell.deleteTodo = { [weak self] todo in
+            self?.presentCancellableAlertController(
+                title: "정말로 삭제하시겠습니까?",
+                message: "복구할 수 없습니다.",
+                action: {
+                    self?.listener?.deleteButtonTapped(todo)
+                })
         }
         return cell
     }

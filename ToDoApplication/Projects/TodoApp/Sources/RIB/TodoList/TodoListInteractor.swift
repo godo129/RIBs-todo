@@ -62,4 +62,9 @@ final class TodoListInteractor: PresentableInteractor<TodoListPresentable>, Todo
     func todoCellTouched(_ todo: Todo?) {
         router?.routeToUpdate(todo)
     }
+    
+    func deleteButtonTapped(_ todo: Todo) {
+        dump(todoRepository.deleteTodo(todo))
+        fetchedTodos.on(.next(todoRepository.getNotCompletTodoList()))
+    }
 }

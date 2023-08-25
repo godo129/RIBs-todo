@@ -17,6 +17,7 @@ final class TodoTableViewCell: UITableViewCell {
     static let identifier = String(describing: TodoTableViewCell.self)
     private var todo: Todo? = nil
     var changedTodo: ((Todo, Todo) -> Void)? = nil
+    var deleteTodo: ((Todo) -> Void)? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,6 +36,14 @@ final class TodoTableViewCell: UITableViewCell {
         toDoDate.text = todo.targetTime.yearMonthDateTime
         todoCompleteSwitch.isOn = todo.isCompleted
         self.todo = todo
+    }
+    
+    @IBAction func deleteButtonTapped(_ sender: Any) {
+        guard let deleteTodo,
+              let todo else {
+            return
+        }
+        deleteTodo(todo)
     }
     
     @IBAction func switchButtonChanged(_ sender: Any) {

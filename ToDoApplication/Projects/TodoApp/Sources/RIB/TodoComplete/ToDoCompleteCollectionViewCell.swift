@@ -19,6 +19,7 @@ final class ToDoCompleteCollectionViewCell: UICollectionViewCell {
     private var todo: Todo? = nil
     var todoChanged: ((Todo, Todo) -> Void)? = nil
     var todoTapped: ((Todo) -> Void)? = nil
+    var deleteTodo: ((Todo) -> Void)? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -55,6 +56,13 @@ final class ToDoCompleteCollectionViewCell: UICollectionViewCell {
         self.todo = newTodo
     }
     
+    @IBAction func deleteButtonTapped(_ sender: Any) {
+        guard let deleteTodo,
+              let todo else {
+            return
+        }
+        deleteTodo(todo)
+    }
     override func prepareForReuse() {
         super.prepareForReuse()
         toDoDateLabel.text = ""

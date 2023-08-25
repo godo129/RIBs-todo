@@ -65,4 +65,9 @@ final class TodoCompleteInteractor: PresentableInteractor<TodoCompletePresentabl
     func viewWillAppear() {
         fetchedTodos.on(.next(todoRepository.getCompletTodoList()))
     }
+    
+    func deleteButtonTapped(_ todo: Todo) {
+        dump(todoRepository.deleteTodo(todo))
+        fetchedTodos.on(.next(todoRepository.getCompletTodoList()))
+    }
 }

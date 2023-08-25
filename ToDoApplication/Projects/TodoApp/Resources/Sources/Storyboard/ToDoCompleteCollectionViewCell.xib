@@ -30,7 +30,7 @@
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="fPQ-KK-jnD">
-                                        <rect key="frame" x="90" y="0.0" width="151" height="39"/>
+                                        <rect key="frame" x="90" y="0.0" width="90" height="39"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0pJ-2m-qFw">
                                                 <rect key="frame" x="0.0" y="0.0" width="41.333333333333336" height="19.666666666666668"/>
@@ -47,11 +47,26 @@
                                         </subviews>
                                     </stackView>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uTB-nF-FAQ">
-                                        <rect key="frame" x="251" y="4" width="51" height="31"/>
+                                        <rect key="frame" x="190" y="4" width="72" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="xNv-ug-kMK"/>
+                                        </constraints>
                                         <connections>
                                             <action selector="switchValueChanged:" destination="gTV-IL-0wX" eventType="valueChanged" id="IZR-7b-FPI"/>
                                         </connections>
                                     </switch>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r5F-kl-nPG">
+                                        <rect key="frame" x="270" y="2.3333333333333321" width="30" height="34.333333333333343"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="Lqi-tb-Sjt"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="trash.fill" catalog="system"/>
+                                        <connections>
+                                            <action selector="deleteButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="r9Q-6g-VF3"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hbn-bq-v3D">
@@ -83,4 +98,7 @@
             <point key="canvasLocation" x="184.73282442748092" y="-11.267605633802818"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="trash.fill" catalog="system" width="119" height="128"/>
+    </resources>
 </document>
