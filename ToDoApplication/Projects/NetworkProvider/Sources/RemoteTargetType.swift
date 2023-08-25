@@ -49,3 +49,27 @@ extension RemoteTargetType {
         return urlRequest
     }
 }
+
+extension Encodable {
+    func toJson() throws -> Data {
+        do {
+            let encodedData = try JSONEncoder().encode(self)
+            return encodedData
+        } catch {
+            print(error)
+            throw error
+        }
+    }
+}
+
+extension Data {
+    func toObject<T: Decodable>(_ type: T.Type) throws -> T {
+        do {
+            let docodedData = try JSONDecoder().decode(type, from: self)
+            return docodedData
+        } catch {
+            print(error)
+            throw error
+        }
+    }
+}
