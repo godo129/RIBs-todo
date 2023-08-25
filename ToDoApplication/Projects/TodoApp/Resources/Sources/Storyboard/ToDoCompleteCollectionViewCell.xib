@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -66,6 +67,7 @@
                 <outlet property="toDoDateLabel" destination="0pJ-2m-qFw" id="KLQ-V2-gej"/>
                 <outlet property="toDoTitleLabel" destination="Ex4-gb-j2E" id="o3m-cE-HgI"/>
                 <outlet property="todoImageView" destination="0Wp-O1-2hO" id="tAO-ZE-YPQ"/>
+                <outlet property="todoStackView" destination="fPQ-KK-jnD" id="H1o-68-2TX"/>
             </connections>
             <point key="canvasLocation" x="184.73282442748092" y="-11.267605633802818"/>
         </collectionViewCell>

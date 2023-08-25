@@ -13,7 +13,7 @@ protocol TodoCompletePresentableListener: AnyObject {
     var fetchedTodos: PublishSubject<[Todo]> { get }
     func todoStatusChagned(from: Todo, to: Todo)
     func viewDidLoad()
-
+    func todoCellTouched(_ todo: Todo)
 }
 
 final class TodoCompleteViewController: UIViewController, TodoCompletePresentable, TodoCompleteViewControllable, ViewControllerInitiable {
@@ -67,6 +67,9 @@ extension TodoCompleteViewController: UICollectionViewDataSource, UICollectionVi
         cell.bind(todo)
         cell.todoChanged = { [weak self] before, after in
             self?.listener?.todoStatusChagned(from: before, to: after)
+        }
+        cell.todoTapped = { [weak self] todo in
+            self?.listener?.todoCellTouched(todo)
         }
         return cell
     }

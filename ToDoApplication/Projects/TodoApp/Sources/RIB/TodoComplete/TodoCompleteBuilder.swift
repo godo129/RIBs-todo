@@ -8,7 +8,7 @@
 
 import RIBs
 
-protocol TodoCompleteDependency: Dependency {
+protocol TodoCompleteDependency: Dependency, TodoUpdateDependency {
     var todoRepository: TodoRepositoryProtocol { get }
 }
 
@@ -37,7 +37,10 @@ final class TodoCompleteBuilder: Builder<TodoCompleteDependency>, TodoCompleteBu
             presenter: viewController as! TodoCompletePresentable,
             todoRepository: component.todoRepository
         )
-        interactor.listener = listener
-        return TodoCompleteRouter(interactor: interactor, viewController: viewController as! TodoCompleteViewControllable)
+        let todoUpdateBuilder = TodoUpdateBuilder(dependency: dependency)
+        return TodoCompleteRouter(
+            interactor: interactor, viewController: viewController as! TodoCompleteViewControllable,
+            todoUpdateBuilder: todoUpdateBuilder
+        )
     }
 }

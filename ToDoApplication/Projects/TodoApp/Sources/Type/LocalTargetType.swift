@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LocalProvider
 
 public enum LocalTargetType: LocalStorable {
 

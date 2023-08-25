@@ -8,7 +8,7 @@
 
 import RIBs
 
-protocol TodoCompleteInteractable: Interactable {
+protocol TodoCompleteInteractable: Interactable, TodoUpdateListener {
     var router: TodoCompleteRouting? { get set }
     var listener: TodoCompleteListener? { get set }
 }
@@ -19,9 +19,21 @@ protocol TodoCompleteViewControllable: ViewControllable {
 
 final class TodoCompleteRouter: ViewableRouter<TodoCompleteInteractable, TodoCompleteViewControllable>, TodoCompleteRouting {
 
-    // TODO: Constructor inject child builder protocols to allow building children.
-    override init(interactor: TodoCompleteInteractable, viewController: TodoCompleteViewControllable) {
+    private let todoUpdateBuilder: TodoUpdateBuildable
+    
+    init(
+        interactor: TodoCompleteInteractable,
+        viewController: TodoCompleteViewControllable,
+        todoUpdateBuilder: TodoUpdateBuildable
+    ) {
+        self.todoUpdateBuilder = todoUpdateBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
+    }
+    
+    func routeToUpdate(todo: Todo? = nil) {
+        let todoUpdateBuilder = todoUpdateBuilder.build(withListener: interactor, todo: todo)
+        attachChild(todoUpdateBuilder)
+        viewControllable.uiviewController.navigationController?.pushViewController(todoUpdateBuilder.viewControllable.uiviewController, animated: true)
     }
 }

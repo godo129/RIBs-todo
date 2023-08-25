@@ -10,7 +10,7 @@ import RIBs
 import RxSwift
 
 protocol TodoCompleteRouting: ViewableRouting {
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func routeToUpdate(todo: Todo?)
 }
 
 protocol TodoCompletePresentable: Presentable {
@@ -57,4 +57,9 @@ final class TodoCompleteInteractor: PresentableInteractor<TodoCompletePresentabl
     func viewDidLoad() {
         fetchedTodos.on(.next(todoRepository.getCompletTodoList()))
     }
+    
+    func todoCellTouched(_ todo: Todo) {
+        router?.routeToUpdate(todo: todo)
+    }
+    
 }

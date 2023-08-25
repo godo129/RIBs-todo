@@ -29,10 +29,8 @@ final class TodoAddViewController: UIViewController, TodoAddPresentable, TodoAdd
     @IBOutlet weak var todoContentLabel: UITextView!
     @IBOutlet weak var todoImageSelectButton: UIButton!
     private var selectedDate = Date()
-    private let todoRepository: TodoRepositoryProtocol = TodoRepository(todoProvider: TodoProvider.instance)
-    private let imageProvider: ImageProvider = .init()
     private let disposeBag = DisposeBag()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()

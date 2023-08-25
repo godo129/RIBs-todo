@@ -13,12 +13,29 @@ final class ToDoCompleteCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var toDoDateLabel: UILabel!
     @IBOutlet weak var toDoTitleLabel: UILabel!
     @IBOutlet weak var isFinishSwitchButton: UISwitch!
+    @IBOutlet weak var todoStackView: UIStackView!
+
     static let identifier = String(describing: ToDoCompleteCollectionViewCell.self)
     private var todo: Todo? = nil
     var todoChanged: ((Todo, Todo) -> Void)? = nil
+    var todoTapped: ((Todo) -> Void)? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        todoStackViewConfigure()
+    }
+    
+    private func todoStackViewConfigure() {
+        let todoTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(todoStackViewTapped))
+        todoStackView.addGestureRecognizer(todoTapRecognizer)
+    }
+    
+    @objc private func todoStackViewTapped() {
+        guard let todoTapped,
+              let todo else {
+            return
+        }
+        todoTapped(todo)
     }
 
     func bind(_ todo: Todo) {
