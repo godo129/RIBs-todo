@@ -66,7 +66,7 @@ final class TodoViewController: UIViewController, TodoPresentable, TodoViewContr
         listener?.completedTodos
             .subscribe(onNext: { [weak self] todos in
                 DispatchQueue.main.async {
-                    self?.todoCompleteListViewLabel.text = "남은 할일 목록 \(todos.count) 개"
+                    self?.todoCompleteListViewLabel.text = "완료 할일 목록 \(todos.count) 개"
                 }
             })
             .disposed(by: disposeBag)
@@ -74,7 +74,7 @@ final class TodoViewController: UIViewController, TodoPresentable, TodoViewContr
         listener?.notCompletedTodos
             .subscribe(onNext: { [weak self] todos in
                 DispatchQueue.main.async {
-                    self?.todoListViewLabel.text = "완료 할일 목록 \(todos.count) 개"
+                    self?.todoListViewLabel.text = "남은 할일 목록 \(todos.count) 개"
                 }
             })
             .disposed(by: disposeBag)

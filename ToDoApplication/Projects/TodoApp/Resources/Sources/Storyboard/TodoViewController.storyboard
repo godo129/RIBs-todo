@@ -20,11 +20,18 @@
                             <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" distribution="fillEqually" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="eNq-wq-zfY">
                                 <rect key="frame" x="0.0" y="203" width="353" height="200"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="29Y-BW-eJd">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="29Y-BW-eJd">
                                         <rect key="frame" x="0.0" y="25" width="166.66666666666666" height="150"/>
                                         <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rD0-xC-p02">
+                                                <rect key="frame" x="0.0" y="0.0" width="166.66666666666666" height="0.0"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" id="Alf-3j-lF7"/>
+                                                </constraints>
+                                            </view>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calendar" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ZLi-KZ-fci">
-                                                <rect key="frame" x="58.333333333333329" y="1.6666666666666643" width="50" height="47"/>
+                                                <rect key="frame" x="58.333333333333329" y="21.666666666666664" width="50" height="46.999999999999993"/>
                                                 <color key="tintColor" systemColor="labelColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="50" id="FRv-k6-aXf"/>
@@ -32,7 +39,7 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="남은 일정 0개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qnI-aP-C3S">
-                                                <rect key="frame" x="37.000000000000007" y="50" width="92.666666666666686" height="100"/>
+                                                <rect key="frame" x="37.000000000000007" y="90" width="92.666666666666686" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -40,7 +47,6 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="150" id="Rsc-e2-2cC"/>
-                                            <constraint firstItem="ZLi-KZ-fci" firstAttribute="top" secondItem="29Y-BW-eJd" secondAttribute="top" constant="20" id="nf5-n5-OOt"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
@@ -54,11 +60,18 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vgM-u7-DtS">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="vgM-u7-DtS">
                                         <rect key="frame" x="186.66666666666663" y="25" width="166.33333333333337" height="150"/>
                                         <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GFL-3y-u93">
+                                                <rect key="frame" x="0.0" y="0.0" width="166.33333333333334" height="0.0"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" id="Tbo-FA-2dK"/>
+                                                </constraints>
+                                            </view>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.seal" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="gYH-qx-4MU">
-                                                <rect key="frame" x="58.000000000000028" y="-0.66666666666666785" width="50" height="51.333333333333343"/>
+                                                <rect key="frame" x="58.000000000000028" y="19.333333333333332" width="50" height="51.333333333333343"/>
                                                 <color key="tintColor" systemColor="systemRedColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="1fQ-PW-Wtw"/>
@@ -66,14 +79,13 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="완료한 일정 0개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ct-Mc-CMu">
-                                                <rect key="frame" x="29.333333333333336" y="50" width="107.33333333333331" height="100"/>
+                                                <rect key="frame" x="29.333333333333336" y="90" width="107.33333333333331" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="gYH-qx-4MU" firstAttribute="top" secondItem="vgM-u7-DtS" secondAttribute="top" constant="20" id="dXR-Gt-Huc"/>
                                             <constraint firstAttribute="height" constant="150" id="nM7-Nr-w54"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
