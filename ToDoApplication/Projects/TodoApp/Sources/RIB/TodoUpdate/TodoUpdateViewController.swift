@@ -12,11 +12,14 @@ import UIKit
 
 protocol TodoUpdatePresentableListener: AnyObject {
     var imageData: PublishSubject<Data> { get }
+    var dateData: PublishSubject<Date> { get }
     var imageFetchErrorOcurred: PublishSubject<String> { get }
+    var datePickerErrorOcurred: PublishSubject<String> { get }
     func viewDidLoad()
     func todoDelete(_ todo: Todo)
     func todoUpdate(from: Todo, to: Todo)
     func photoSelectButtonTapped()
+    func datePickButtonTapped(selectedDate: Date)
 }
 
 final class TodoUpdateViewController: UIViewController, TodoUpdatePresentable, TodoUpdateViewControllable {
@@ -57,6 +60,7 @@ final class TodoUpdateViewController: UIViewController, TodoUpdatePresentable, T
     private lazy var todoTargetDateButton = UIButton().and {
         $0.setTitleColor(.black, for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.addTarget(self, action: #selector(dateSelectButtonTapped), for: .touchUpInside)
     }
     
     private var todo: Todo?
@@ -164,6 +168,9 @@ extension TodoUpdateViewController {
             isCompleted: todo.isCompleted
         )
         listener?.todoUpdate(from: todo, to: currentTodo)
+    }
+    @objc private func dateSelectButtonTapped() {
+        listener?.datePickButtonTapped(selectedDate: selectedDate)
     }
 }
 

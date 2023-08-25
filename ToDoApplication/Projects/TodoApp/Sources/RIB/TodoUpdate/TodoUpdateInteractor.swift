@@ -29,6 +29,8 @@ final class TodoUpdateInteractor: PresentableInteractor<TodoUpdatePresentable>, 
     private let imageRepository: ImageRepositoryProtocol
     var imageData: PublishSubject<Data> = .init()
     var imageFetchErrorOcurred: PublishSubject<String> = .init()
+    var dateData: PublishSubject<Date> = .init()
+    var datePickerErrorOcurred: PublishSubject<String> = .init()
     
     weak var router: TodoUpdateRouting?
     weak var listener: TodoUpdateListener?
@@ -81,5 +83,18 @@ final class TodoUpdateInteractor: PresentableInteractor<TodoUpdatePresentable>, 
                 imageFetchErrorOcurred.on(.next(error.localizedDescription))
             }
         }
+    }
+    
+    func datePickButtonTapped(selectedDate: Date) {
+        guard let viewController = router?.viewControllable.uiviewController,
+            let datePicker = DatePickerViewController.viewControllerInstance() as? DatePickerViewController else {
+            datePickerErrorOcurred.on(.next("날짜 선택에 오류가 발생했습니다."))
+            return
+        }
+        datePicker.selectedDate = selectedDate
+        datePicker.date = { [weak self] date in
+            self?.dateData.on(.next(date))
+        }
+        viewController.present(datePicker, animated: true)
     }
 }
