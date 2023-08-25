@@ -13,6 +13,8 @@ protocol TodoListPresentableListener: AnyObject {
     var fetchedTodos: PublishSubject<[Todo]> { get }
     func todoStatusChagned(from: Todo, to: Todo)
     func viewDidLoad()
+    func viewWillAppear()
+    func todoCellTouched(_ todo: Todo?)
 }
 
 final class TodoListViewController: UIViewController, TodoListPresentable, TodoListViewControllable, ViewControllerInitiable {
@@ -22,13 +24,6 @@ final class TodoListViewController: UIViewController, TodoListPresentable, TodoL
     @IBOutlet weak var todoTableView: UITableView!
     private let disposeBag = DisposeBag()
     private var todos: [Todo] = []
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configure()
-        bind()
-        listener?.viewDidLoad()
-    }
     
     private func configure() {
         title = "할일들"
@@ -52,6 +47,20 @@ final class TodoListViewController: UIViewController, TodoListPresentable, TodoL
     }
 }
 
+extension TodoListViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configure()
+        bind()
+        listener?.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        listener?.viewWillAppear()
+    }
+}
+
 extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todos.count
@@ -67,5 +76,11 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath) {
+        
+            let todo = todos[indexPath.row]
+            listener?.todoCellTouched(todo)
+    }
 }

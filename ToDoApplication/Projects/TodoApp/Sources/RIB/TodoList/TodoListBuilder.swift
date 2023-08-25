@@ -8,7 +8,7 @@
 
 import RIBs
 
-protocol TodoListDependency: Dependency {
+protocol TodoListDependency: Dependency, TodoUpdateDependency {
     var todoRepository: TodoRepositoryProtocol { get }
 }
 
@@ -38,6 +38,11 @@ final class TodoListBuilder: Builder<TodoListDependency>, TodoListBuildable {
             todoRepository: component.todoRepository
         )
         interactor.listener = listener
-        return TodoListRouter(interactor: interactor, viewController: viewController as! TodoListViewControllable)
+        let todoUpdateBuilder = TodoUpdateBuilder(dependency: dependency)
+        return TodoListRouter(
+            interactor: interactor,
+            viewController: viewController as! TodoListViewControllable,
+            todoUpdateBuilder: todoUpdateBuilder
+        )
     }
 }
