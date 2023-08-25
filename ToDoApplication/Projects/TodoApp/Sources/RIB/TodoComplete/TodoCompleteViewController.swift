@@ -13,6 +13,7 @@ protocol TodoCompletePresentableListener: AnyObject {
     var fetchedTodos: PublishSubject<[Todo]> { get }
     func todoStatusChagned(from: Todo, to: Todo)
     func viewDidLoad()
+    func viewWillAppear()
     func todoCellTouched(_ todo: Todo)
 }
 
@@ -24,13 +25,6 @@ final class TodoCompleteViewController: UIViewController, TodoCompletePresentabl
     private let disposeBag = DisposeBag()
     private var todos: [Todo] = []
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configure()
-        bind()
-        listener?.viewDidLoad()
-    }
-    
     private func configure() {
         title = "완료현황 보기"
         UINavigationBar.makeTransparent()
@@ -54,6 +48,20 @@ final class TodoCompleteViewController: UIViewController, TodoCompletePresentabl
             .disposed(by: disposeBag)
     }
 
+}
+
+extension TodoCompleteViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configure()
+        bind()
+        listener?.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        listener?.viewWillAppear()
+    }
 }
 
 extension TodoCompleteViewController: UICollectionViewDataSource, UICollectionViewDelegate {

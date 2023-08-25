@@ -55,11 +55,14 @@ final class TodoCompleteInteractor: PresentableInteractor<TodoCompletePresentabl
     }
     
     func viewDidLoad() {
-        fetchedTodos.on(.next(todoRepository.getCompletTodoList()))
+//        fetchedTodos.on(.next(todoRepository.getCompletTodoList()))
     }
     
     func todoCellTouched(_ todo: Todo) {
         router?.routeToUpdate(todo: todo)
     }
     
+    func viewWillAppear() {
+        fetchedTodos.on(.next(todoRepository.getCompletTodoList()))
+    }
 }
