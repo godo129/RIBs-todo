@@ -48,6 +48,8 @@ final class TodoUpdateViewController: UIViewController, TodoUpdatePresentable, T
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.black.cgColor
         $0.cornerRadius = 10
+        $0.leftPadding(add: 15)
+        $0.rightPadding(add: 15)
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     private lazy var todoContextTextView = UITextView().and {
@@ -55,12 +57,25 @@ final class TodoUpdateViewController: UIViewController, TodoUpdatePresentable, T
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.black.cgColor
         $0.cornerRadius = 10
+        $0.textContainerInset = UIEdgeInsets(top: 15, left: 10, bottom: 15, right: 10)
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     private lazy var todoTargetDateButton = UIButton().and {
         $0.setTitleColor(.black, for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(dateSelectButtonTapped), for: .touchUpInside)
+    }
+    private lazy var todoTitleLabel = UILabel().and {
+        $0.text = "할일 제목"
+        $0.textColor = .black
+    }
+    private lazy var todoContextLabel = UILabel().and {
+        $0.text = "할일 내용"
+        $0.textColor = .black
+    }
+    private lazy var todoTimeLabel = UILabel().and {
+        $0.text = "시간"
+        $0.textColor = .black
     }
     
     private var todo: Todo?
@@ -110,7 +125,7 @@ extension TodoUpdateViewController {
         view.backgroundColor = .white
         view.addSubview(scrollView)
         scrollView.addSubview(stackView)
-        [todoImageView, todoTitleTextField, todoContextTextView, todoTargetDateButton].forEach {
+        [todoImageView, todoTitleLabel, todoTitleTextField, todoContextLabel, todoContextTextView, todoTimeLabel, todoTargetDateButton].forEach {
             stackView.addArrangedSubview($0)
         }
         viewsContentSetting()
