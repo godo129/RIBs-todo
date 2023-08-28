@@ -18,6 +18,8 @@ public struct NetworkProvider<T: RemoteTargetType> {
         case responseDataDeosntExist
     }
     
+    public init() {}
+    
     public func request(_ type: T) async throws -> Data {
         return try await withCheckedThrowingContinuation { continuation in
             guard let urlReqeust = type.asRequest() else {
