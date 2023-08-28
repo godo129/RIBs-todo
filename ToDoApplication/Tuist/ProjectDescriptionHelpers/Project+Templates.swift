@@ -72,6 +72,9 @@ public extension Project {
                 configurations: [
                     .debug(
                         name: .debug,
+                        settings: [
+                          "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "Dog",
+                        ],
                         xcconfig: .relativeToRoot("Projects/TodoApp/Configurations/todo.dog.xcconfig")
                     )
                 ]
@@ -92,6 +95,9 @@ public extension Project {
                 configurations: [
                     .debug(
                         name: .debug,
+                        settings: [
+                          "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "Cat",
+                        ],
                         xcconfig: .relativeToRoot("Projects/TodoApp/Configurations/todo.cat.xcconfig")
                     )
                 ]

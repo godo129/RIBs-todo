@@ -62,7 +62,14 @@ final class TodoInteractor: PresentableInteractor<TodoPresentable>, TodoInteract
         notCompletedTodos.on(.next(todoRepository.getNotCompletTodoList()))
         Task {
             do {
-                let randomImages = try await imageRepository.getCatAndDogRandomImageDatas(.catImageSearch)
+                let randomImages: [Data]
+                #if DEBUG
+                randomImages = try await imageRepository.getCatAndDogRandomImageDatas(.catImageSearch)
+                #elseif Dog
+                randomImages = try await imageRepository.getCatAndDogRandomImageDatas(.dogImageSearch)
+                #elseif Cat
+                randomImages = try await imageRepository.getCatAndDogRandomImageDatas(.catImageSearch)
+                #endif
                 randomImageData.onNext(randomImages)
             } catch {
                 randomImageData.onError(error)
