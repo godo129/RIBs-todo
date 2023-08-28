@@ -12,7 +12,7 @@ public protocol And {}
 
 extension And where Self: AnyObject {
     @inlinable
-    func and(_ adjust: ((Self) throws -> Void)) rethrows -> Self {
+    public func and(_ adjust: ((Self) throws -> Void)) rethrows -> Self {
         try adjust(self)
         return self
     }

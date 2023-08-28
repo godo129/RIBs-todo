@@ -10,7 +10,8 @@ let project = Project.makeModule(
     dependencies: [
         .project(target: "ThirdPartyLib", path: .relativeToRoot("Projects/ThirdPartyLib")),
         .project(target: "NetworkProvider", path: .relativeToRoot("Projects/NetworkProvider")),
-        .project(target: "LocalProvider", path: .relativeToRoot("Projects/LocalProvider"))
+        .project(target: "LocalProvider", path: .relativeToRoot("Projects/LocalProvider")),
+        .project(target: "And", path: .relativeToRoot("Projects/And"))
     ],
     resources: ["Resources/**"],
 //    infoPlist: .file(path: "Derived/InfoPlists/TodoApp-Info.plist"),
