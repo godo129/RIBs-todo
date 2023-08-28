@@ -1,0 +1,4 @@
+#include "./todo.shared.xcconfig"
+OTHER_SWIFT_FLAGS[config=Dog][sdk=*] = $(inherited) -DDog
+
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) Dog

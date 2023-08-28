@@ -27,11 +27,11 @@ public extension Project {
         ]
         
         let settings: Settings = .settings(
-            base: baseSetting,
             configurations: [
                 .debug(name: .debug),
-                .release(name: .release)
-            ], defaultSettings: .recommended)
+                .debug(name: "Dog"),
+                .debug(name: "Cat")
+            ])
 
         let appTarget = Target(
             name: name,
@@ -57,10 +57,50 @@ public extension Project {
 //            entitlements: .relativeToRoot(entitlements ?? ""),
             dependencies: [.target(name: name)]
         )
+        
+        let dogTarget = Target(
+            name: "TodoApp-Dog",
+            platform: platform,
+            product: product,
+            bundleId: "\(organizationName).\(name)-Dog",
+            deploymentTarget: deploymentTarget,
+            infoPlist: infoPlist,
+            sources: sources,
+            resources: resources,
+            dependencies: dependencies + additionalTargets.map { .target(name: $0) },
+            settings: .settings(
+                configurations: [
+                    .debug(
+                        name: .debug,
+                        xcconfig: .relativeToRoot("Projects/TodoApp/Configurations/todo.dog.xcconfig")
+                    )
+                ]
+            )
+        )
+        
+        let catTarget = Target(
+            name: "TodoApp-Cat",
+            platform: platform,
+            product: product,
+            bundleId: "\(organizationName).\(name)-Cat",
+            deploymentTarget: deploymentTarget,
+            infoPlist: infoPlist,
+            sources: sources,
+            resources: resources,
+            dependencies: dependencies + additionalTargets.map { .target(name: $0) },
+            settings: .settings(
+                configurations: [
+                    .debug(
+                        name: .debug,
+                        xcconfig: .relativeToRoot("Projects/TodoApp/Configurations/todo.cat.xcconfig")
+                    )
+                ]
+            )
+        )
 
         let schemes: [Scheme] = [.makeScheme(target: .debug, name: name)]
 
-        let targets: [Target] = [appTarget, testTarget] + additionalTargets.flatMap { makeFrameworkTargets(name: $0, platform: platform) }
+        let targets: [Target] = [appTarget, testTarget, dogTarget, catTarget] + additionalTargets.flatMap { makeFrameworkTargets(name: $0, platform: platform) }
 
         return Project(
             name: name,

@@ -1,0 +1,4 @@
+#include "./todo.shared.xcconfig"
+
+OTHER_SWIFT_FLAGS[config=Cat][sdk=*] = $(inherited) -DCats
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = Cat
