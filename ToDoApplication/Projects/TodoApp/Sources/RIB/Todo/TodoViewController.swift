@@ -75,6 +75,7 @@ final class TodoViewController: UIViewController, TodoPresentable, TodoViewContr
                 onNext: { [weak self] imageDatas in
                     DispatchQueue.main.async {
                         self?.mainPageImageView.image = UIImage(data: imageDatas[0])
+                        self?.mainPageImageView.roundCornersForAspectFit(radius: 30)
                     }
                 },
                 onError: { [weak self] error in
