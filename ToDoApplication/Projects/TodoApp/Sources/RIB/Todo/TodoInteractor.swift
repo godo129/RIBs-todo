@@ -8,6 +8,7 @@
 
 import RIBs
 import RxSwift
+import Foundation
 
 protocol TodoRouting: ViewableRouting {
     func routeToCompleList()
@@ -25,19 +26,23 @@ protocol TodoListener: AnyObject {
 }
 
 final class TodoInteractor: PresentableInteractor<TodoPresentable>, TodoInteractable, TodoPresentableListener {
-    
+    var randomImageData = PublishSubject<[Data]>()
     var completedTodos = PublishSubject<[Todo]>()
     var notCompletedTodos = PublishSubject<[Todo]>()
 
     weak var router: TodoRouting?
     weak var listener: TodoListener?
     
-    private let todoRepository = TodoRepository(todoProvider: TodoProvider.instance)
-
-    // TODO: Add additional dependencies to constructor. Do not perform any logic
-    // in constructor.
-
-    override init(presenter: TodoPresentable) {
+    private let todoRepository: TodoRepositoryProtocol
+    private let imageRepository: ImageRepositoryProtocol
+    
+    init(
+        presenter: TodoPresentable,
+        todoRepository: TodoRepositoryProtocol,
+        imageRepository: ImageRepositoryProtocol
+    ) {
+        self.todoRepository = todoRepository
+        self.imageRepository = imageRepository
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -55,6 +60,14 @@ final class TodoInteractor: PresentableInteractor<TodoPresentable>, TodoInteract
     func viewWillAppear() {
         completedTodos.on(.next(todoRepository.getCompletTodoList()))
         notCompletedTodos.on(.next(todoRepository.getNotCompletTodoList()))
+        Task {
+            do {
+                let randomImages = try await imageRepository.getCatAndDogRandomImageDatas(.catImageSearch)
+                randomImageData.onNext(randomImages)
+            } catch {
+                randomImageData.onError(error)
+            }
+        }
     }
     
     func completeListButtonTapped() {
