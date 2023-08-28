@@ -21,17 +21,33 @@ public extension Project {
         additionalTargets: [String] = []
     ) -> Project {
         
-        let baseSetting: [String: SettingValue] = [
-            "MARKETING_VERSION": "1.0",
-            "CURRENT_PROJECT_VERSION": "1.0.0.0"
-        ]
+//        let baseSetting: [String: SettingValue] = [
+//            "MARKETING_VERSION": "1.0",
+//            "CURRENT_PROJECT_VERSION": "1.0.0.0"
+//        ]
+        
+        let dogConfiguration = Configuration.debug(
+            name: "Dog",
+            settings: [
+                "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "Dog",
+            ],
+            xcconfig: .relativeToRoot("Projects/TodoApp/Configurations/todo.dog.xcconfig")
+        )
+        
+        let catConfiguration = Configuration.debug(
+            name: "Cat",
+            settings: [
+                "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "Cat",
+            ],
+            xcconfig: .relativeToRoot("Projects/TodoApp/Configurations/todo.cat.xcconfig")
+        )
         
         let settings: Settings = .settings(
-            base: baseSetting,
             configurations: [
                 .debug(name: .debug),
-                .release(name: .release)
-            ], defaultSettings: .recommended)
+                dogConfiguration,
+                catConfiguration
+            ])
 
         let appTarget = Target(
             name: name,
@@ -57,10 +73,45 @@ public extension Project {
 //            entitlements: .relativeToRoot(entitlements ?? ""),
             dependencies: [.target(name: name)]
         )
+        
+        let dogTarget = Target(
+            name: "TodoApp-Dog",
+            platform: platform,
+            product: product,
+            bundleId: "\(organizationName).\(name)-Dog",
+            deploymentTarget: deploymentTarget,
+            infoPlist: infoPlist,
+            sources: sources,
+            resources: resources,
+            dependencies: dependencies + additionalTargets.map { .target(name: $0) },
+            settings: .settings(
+                configurations: [
+                    dogConfiguration
+                ]
+            )
+        )
+        
+        let catTarget = Target(
+            name: "TodoApp-Cat",
+            platform: platform,
+            product: product,
+            bundleId: "\(organizationName).\(name)-Cat",
+            deploymentTarget: deploymentTarget,
+            infoPlist: infoPlist,
+            sources: sources,
+            resources: resources,
+            dependencies: dependencies + additionalTargets.map { .target(name: $0) },
+            settings: .settings(configurations: [
+                catConfiguration
+            ])
+        )
 
-        let schemes: [Scheme] = [.makeScheme(target: .debug, name: name)]
-
-        let targets: [Target] = [appTarget, testTarget] + additionalTargets.flatMap { makeFrameworkTargets(name: $0, platform: platform) }
+        let targets: [Target] = [appTarget, testTarget, dogTarget, catTarget] + additionalTargets.flatMap { makeFrameworkTargets(name: $0, platform: platform) }
+        
+        let schemes: [Scheme] = [
+            Scheme.makeScheme(target: "Dog", name: "TodoApp-Dog"),
+            Scheme.makeScheme(target: "Cat", name: "TodoApp-Cat")
+        ]
 
         return Project(
             name: name,
@@ -100,11 +151,11 @@ extension Scheme {
             name: name,
             shared: true,
             buildAction: .buildAction(targets: ["\(name)"]),
-            testAction: .targets(
-                ["\(name)Tests"],
-                configuration: target,
-                options: .options(coverage: true, codeCoverageTargets: ["\(name)"])
-            ),
+//            testAction: .targets(
+//                ["\(name)Tests"],
+//                configuration: target,
+//                options: .options(coverage: true, codeCoverageTargets: ["\(name)"])
+//            ),
             runAction: .runAction(configuration: target),
             archiveAction: .archiveAction(configuration: target),
             profileAction: .profileAction(configuration: target),

@@ -12,31 +12,22 @@ import RIBs
 protocol TodoPresentableListener: AnyObject {
     var completedTodos: PublishSubject<[Todo]> { get }
     var notCompletedTodos: PublishSubject<[Todo]> { get }
+    var randomImageData: PublishSubject<[Data]> { get }
     func viewWillAppear()
     func completeListButtonTapped()
     func todoListButtonTapped()
-    func todoListAddButtonTapped() 
+    func todoListAddButtonTapped()
 }
 
 final class TodoViewController: UIViewController, TodoPresentable, TodoViewControllable, ViewControllerInitiable {
 
+    @IBOutlet weak var mainPageImageView: UIImageView!
     @IBOutlet weak var todoListView: UIStackView!
     @IBOutlet weak var todoCompletListView: UIStackView!
     @IBOutlet weak var todoListViewLabel: UILabel!
     @IBOutlet weak var todoCompleteListViewLabel: UILabel!
     weak var listener: TodoPresentableListener?
     private let disposeBag = DisposeBag()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configure()
-        bind()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        listener?.viewWillAppear()
-    }
         
     private func configure() {
         view.backgroundColor = .white
@@ -79,8 +70,34 @@ final class TodoViewController: UIViewController, TodoPresentable, TodoViewContr
             })
             .disposed(by: disposeBag)
         
+        listener?.randomImageData
+            .subscribe(
+                onNext: { [weak self] imageDatas in
+                    DispatchQueue.main.async {
+                        self?.mainPageImageView.image = UIImage(data: imageDatas[0])
+                        self?.mainPageImageView.roundCornersForAspectFit(radius: 30)
+                    }
+                },
+                onError: { [weak self] error in
+                    self?.presentAlertController(title: "\(error)", message: nil)
+                })
+            .disposed(by: disposeBag)
+        
     }
 
+}
+
+extension TodoViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configure()
+        bind()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        listener?.viewWillAppear()
+    }
 }
 
 extension TodoViewController: UINavigationBarDelegate {

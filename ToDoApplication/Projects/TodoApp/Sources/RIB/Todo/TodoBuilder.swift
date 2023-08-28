@@ -9,10 +9,17 @@
 import RIBs
 
 protocol TodoDependency: Dependency, TodoCompleteDependency, TodoListDependency, TodoAddDependency {
+    var imageRepository: ImageRepositoryProtocol { get }
+    var todoRepository: TodoRepositoryProtocol { get }
 }
 
 final class TodoComponent: Component<TodoDependency> {
-    
+    fileprivate var imageRepository: ImageRepositoryProtocol {
+        dependency.imageRepository
+    }
+    fileprivate var todoRepository: TodoRepositoryProtocol {
+        dependency.todoRepository
+    }
 }
 
 // MARK: - Builder
@@ -31,7 +38,11 @@ final class TodoBuilder: Builder<TodoDependency>, TodoBuildable {
     func build(withListener listener: TodoListener) -> TodoRouting {
         let component = TodoComponent(dependency: dependency)
         let viewController = TodoViewController.viewControllerInstance() ?? TodoViewController()
-        let interactor = TodoInteractor(presenter: viewController as! TodoPresentable)
+        let interactor = TodoInteractor(
+            presenter: viewController as! TodoPresentable,
+            todoRepository: dependency.todoRepository,
+            imageRepository: dependency.imageRepository
+        )
         let todoCompleteBuilder = TodoCompleteBuilder(dependency: dependency)
         let todoListBuilder = TodoListBuilder(dependency: dependency)
         let todoAddBuilder = TodoAddBuilder(dependency: dependency)
