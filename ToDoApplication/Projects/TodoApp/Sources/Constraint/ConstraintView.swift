@@ -62,6 +62,7 @@ public class ConstraintMaker {
     private var anchors: [ConstraintAnchor] = []
     
     private var view: UIView
+    private static let empthyView: UIView = UIView()
     
     internal init(_ view: UIView) {
         self.view = view
@@ -106,11 +107,19 @@ public class ConstraintMaker {
                 let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.centerXAnchor : constraint.to.centerXAnchor
                 nsConstraint = constraint.from.centerXAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
             case .heigth:
-                let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.heightAnchor : constraint.to.heightAnchor
-                nsConstraint = constraint.from.heightAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                if constraint.to == empthyView {
+                    nsConstraint = constraint.from.heightAnchor.constraint(equalToConstant: constraint.constant)
+                } else {
+                    let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.heightAnchor : constraint.to.heightAnchor
+                    nsConstraint = constraint.from.heightAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                }
             case .width:
-                let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.widthAnchor : constraint.to.widthAnchor
-                nsConstraint = constraint.from.widthAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                if constraint.to == empthyView {
+                    nsConstraint = constraint.from.widthAnchor.constraint(equalToConstant: constraint.constant)
+                } else {
+                    let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.widthAnchor : constraint.to.widthAnchor
+                    nsConstraint = constraint.from.widthAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                }
             }
             nsConstraint.isActive = true
         }
@@ -123,6 +132,9 @@ public class ConstraintMaker {
         for anchor in constraintMaker.anchors {
             if let to = anchor.to {
                 let constraint = Constraint(type: anchor.type, from: constraintMaker.view, to: to, constant: anchor.constant, needSafeAreaLayout: anchor.needSafeAreaLayoutGuide)
+                constraints.append(constraint)
+            } else if anchor.type == .width || anchor.type == .heigth {
+                let constraint = Constraint(type: anchor.type, from: constraintMaker.view, to: empthyView, constant: anchor.constant, needSafeAreaLayout: anchor.needSafeAreaLayoutGuide)
                 constraints.append(constraint)
             }
         }
@@ -180,6 +192,12 @@ public class ConstraintAnchor {
     func equalTo(_ view: UIView, needSafeAreaLayoutGuide: Bool = false) -> ConstraintRelate {
         self.needSafeAreaLayoutGuide = needSafeAreaLayoutGuide
         self.to = view
+        return ConstraintRelate(constraintAnchor: self)
+    }
+    
+    @discardableResult
+    func equalTo(_ constant: CGFloat) -> ConstraintRelate {
+        self.constant = constant
         return ConstraintRelate(constraintAnchor: self)
     }
 }
