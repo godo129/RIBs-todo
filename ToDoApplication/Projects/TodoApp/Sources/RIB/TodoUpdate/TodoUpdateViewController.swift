@@ -11,6 +11,7 @@ import RxSwift
 import UIKit
 import And
 import NiddleKit
+import Combine
 
 protocol TodoUpdatePresentableListener: AnyObject {
     var imageData: PublishSubject<Data> { get }
@@ -83,6 +84,7 @@ final class TodoUpdateViewController: UIViewController, TodoUpdatePresentable, T
     private var todo: Todo?
     private let disposeBag = DisposeBag()
     private var selectedDate = Date()
+    private var cancellabels = Set<AnyCancellable>()
     
     init(todo: Todo? = nil) {
         super.init(nibName: nil, bundle: nil)
@@ -121,6 +123,18 @@ extension TodoUpdateViewController {
                 }
             })
             .disposed(by: disposeBag)
+        
+        keyboardWillAppear.receive(on: DispatchQueue.main).sink { [weak self] cgrect in
+            if let keyboardSize = cgrect {
+                self?.scrollView.contentInset.bottom = keyboardSize.height
+            }
+        }
+        .store(in: &cancellabels)
+        
+        keyboardWillHide.receive(on: DispatchQueue.main).sink { [weak self] _ in
+            self?.scrollView.contentInset = .zero
+        }
+        .store(in: &cancellabels)
     }
     
     private func configure() {
@@ -132,6 +146,8 @@ extension TodoUpdateViewController {
         }
         viewsContentSetting()
         layout()
+        todoTitleTextField.delegate = self
+        todoContextTextView.delegate = self
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "shift.fill"), style: .plain, target: self, action: #selector(updateButtonTapped))
     }
@@ -184,8 +200,16 @@ extension TodoUpdateViewController {
         )
         listener?.todoUpdate(from: todo, to: currentTodo)
     }
+    
     @objc private func dateSelectButtonTapped() {
         listener?.datePickButtonTapped(selectedDate: selectedDate)
+    }
+    
+}
+
+extension TodoUpdateViewController: UITextFieldDelegate, UITextViewDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        todoTitleTextField.endEditing(true)
     }
 }
 
