@@ -17,7 +17,7 @@ public class ConstraintRelate {
     }
     
     @discardableResult
-    internal func constant(_ constant: CGFloat) -> ConstraintRelate {
+    public func constant(_ constant: CGFloat) -> ConstraintRelate {
         self.constraintAnchor.constant += constant
         return self
     }

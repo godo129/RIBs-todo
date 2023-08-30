@@ -149,25 +149,23 @@ extension TodoUpdateViewController {
     }
     
     private func layout() {
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 10),
-            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 10),
-            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -20),
-
-            todoImageView.heightAnchor.constraint(equalToConstant: 200),
-            
-            todoTitleTextField.heightAnchor.constraint(equalToConstant: 50),
-                        
-            todoContextTextView.heightAnchor.constraint(equalToConstant: 200),
-            
-        ])
+        
+        scrollView.ndl.makeConstraints { make in
+            make.edges.equalTo(view, needSafeAreaLayoutGuide: true)
+        }
+        stackView.ndl.makeConstraints { make in
+            make.edges.equalTo(scrollView).constant(10)
+            make.width.equalTo(scrollView).constant(-20)
+        }
+        todoImageView.ndl.makeConstraints { make in
+            make.height.equalTo(200)
+        }
+        todoTitleTextField.ndl.makeConstraints { make in
+            make.height.equalTo(50)
+        }
+        todoContextTextView.ndl.makeConstraints { make in
+            make.height.equalTo(200)
+        }
     
     }
     @objc private func imageViewTapped() {
