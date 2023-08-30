@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 public extension UIViewController {
     /// 확인 버튼이 있는 경고창
@@ -26,5 +27,22 @@ public extension UIViewController {
         alertController.addAction(accepttAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
+    }
+}
+
+extension UIViewController {
+    var keyboardWillAppear: AnyPublisher<CGRect?, Never> {
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+            .map { notification in
+                let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+                return keyboardFrame
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    var keyboardWillHide: AnyPublisher<CGRect?, Never> {
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
+            .map { _ in return nil }
+            .eraseToAnyPublisher()
     }
 }

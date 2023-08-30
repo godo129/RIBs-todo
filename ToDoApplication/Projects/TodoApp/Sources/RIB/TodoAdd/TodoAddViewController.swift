@@ -9,6 +9,7 @@
 import RIBs
 import RxSwift
 import UIKit
+import Combine
 
 protocol TodoAddPresentableListener: AnyObject {
     var imageData: PublishSubject<Data> { get }
@@ -30,6 +31,7 @@ final class TodoAddViewController: UIViewController, TodoAddPresentable, TodoAdd
     @IBOutlet weak var todoImageSelectButton: UIButton!
     private var selectedDate = Date()
     private let disposeBag = DisposeBag()
+    private var cancellabels = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,9 +85,17 @@ final class TodoAddViewController: UIViewController, TodoAddPresentable, TodoAdd
     private func configure() {
         title = "할일 추가"
         dateSelectButton.setTitle(selectedDate.yearMonthDateTime, for: .normal)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
+        keyboardWillAppear.receive(on: DispatchQueue.main).sink { [weak self] cgrect in
+            if let keyboardSize = cgrect {
+                self?.scrollView.contentInset.bottom = keyboardSize.height
+            }
+        }
+        .store(in: &cancellabels)
         
+        keyboardWillHide.receive(on: DispatchQueue.main).sink { [weak self] _ in
+            self?.scrollView.contentInset = .zero
+        }
+        .store(in: &cancellabels)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "pencil"), style: .plain, target: self, action: #selector(addButtonTapped))
     }
     
@@ -105,22 +115,6 @@ final class TodoAddViewController: UIViewController, TodoAddPresentable, TodoAdd
 }
 
 extension TodoAddViewController {
-    @objc func keyboardWillShow(notification:NSNotification) {
-
-        guard let userInfo = notification.userInfo else { return }
-        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
-
-        var contentInset:UIEdgeInsets = self.scrollView.contentInset
-        contentInset.bottom = keyboardFrame.size.height + 10
-        scrollView.contentInset = contentInset
-    }
-
-    @objc func keyboardWillHide(notification:NSNotification) {
-
-        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
-        scrollView.contentInset = contentInset
-    }
     
     @objc func addButtonTapped() {
         let todo = Todo(title: todoTitleLabel.text ?? "", context: todoContentLabel.text, image: todoImageSelectButton.imageView?.image?.jpegData(compressionQuality: 0.8), targetTime: selectedDate)
