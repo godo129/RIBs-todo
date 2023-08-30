@@ -58,6 +58,15 @@ public class ConstraintMaker {
     public var trailing: ConstraintAnchor {
         return anchorAppend(ConstraintAnchor(type: .trailing))
     }
+    public var edges: ConstraintAnchor {
+        return anchorAppend(ConstraintAnchor(type: .edges))
+    }
+    public var horizontal: ConstraintAnchor {
+        return anchorAppend(ConstraintAnchor(type: .width))
+    }
+    public var vertical: ConstraintAnchor {
+        return anchorAppend(ConstraintAnchor(type: .vertical))
+    }
     
     private var anchors: [ConstraintAnchor] = []
     
@@ -74,54 +83,73 @@ public class ConstraintMaker {
     ) {
         let constraints = prepareConstraints(view, closure: closure)
         for constraint in constraints {
-            let nsConstraint: NSLayoutConstraint
+            var nsConstraints: [NSLayoutConstraint] = []
             switch constraint.type {
             case.top:
                 let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.topAnchor : constraint.to.topAnchor
-                nsConstraint = constraint.from.topAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                nsConstraints.append(constraint.from.topAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant))
             case .left:
                 let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.leftAnchor : constraint.to.leftAnchor
-                nsConstraint = constraint.from.leftAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                nsConstraints.append(constraint.from.leftAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant))
             case .right:
                 let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.rightAnchor : constraint.to.rightAnchor
-                nsConstraint = constraint.from.rightAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                nsConstraints.append(constraint.from.rightAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant))
             case .bottom:
                 let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.bottomAnchor : constraint.to.bottomAnchor
-                nsConstraint = constraint.from.bottomAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                nsConstraints.append(constraint.from.bottomAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant))
             case .leading:
                 let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.leadingAnchor : constraint.to.leadingAnchor
-                nsConstraint = constraint.from.leadingAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                nsConstraints.append(constraint.from.leadingAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant))
             case .trailing:
                 let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.trailingAnchor : constraint.to.trailingAnchor
-                nsConstraint = constraint.from.trailingAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                nsConstraints.append(constraint.from.trailingAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant))
             case .lastBaseLine:
                 let fromAnchor = constraint.to.lastBaselineAnchor
-                nsConstraint = constraint.from.lastBaselineAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                nsConstraints.append(constraint.from.lastBaselineAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant))
             case .firstBaseLine:
                 let fromAnchor = constraint.to.firstBaselineAnchor
-                nsConstraint = constraint.from.firstBaselineAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                nsConstraints.append(constraint.from.firstBaselineAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant))
             case .CenterY:
                 let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.centerYAnchor : constraint.to.centerYAnchor
-                nsConstraint = constraint.from.centerYAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                nsConstraints.append(constraint.from.centerYAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant))
             case .centerX:
                 let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.centerXAnchor : constraint.to.centerXAnchor
-                nsConstraint = constraint.from.centerXAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                nsConstraints.append(constraint.from.centerXAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant))
             case .heigth:
                 if constraint.to == empthyView {
-                    nsConstraint = constraint.from.heightAnchor.constraint(equalToConstant: constraint.constant)
+                    nsConstraints.append(constraint.from.heightAnchor.constraint(equalToConstant: constraint.constant))
                 } else {
                     let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.heightAnchor : constraint.to.heightAnchor
-                    nsConstraint = constraint.from.heightAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                    nsConstraints.append(constraint.from.heightAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant))
                 }
             case .width:
                 if constraint.to == empthyView {
-                    nsConstraint = constraint.from.widthAnchor.constraint(equalToConstant: constraint.constant)
+                    nsConstraints.append(constraint.from.widthAnchor.constraint(equalToConstant: constraint.constant))
                 } else {
                     let fromAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.widthAnchor : constraint.to.widthAnchor
-                    nsConstraint = constraint.from.widthAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant)
+                    nsConstraints.append(constraint.from.widthAnchor.constraint(equalTo: fromAnchor, constant: constraint.constant))
                 }
+            case .edges:
+                let fromTopAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.topAnchor : constraint.to.topAnchor
+                nsConstraints.append(constraint.from.topAnchor.constraint(equalTo: fromTopAnchor, constant: constraint.constant))
+                let fromLeftAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.leftAnchor : constraint.to.leftAnchor
+                nsConstraints.append(constraint.from.leftAnchor.constraint(equalTo: fromLeftAnchor, constant: constraint.constant))
+                let fromRightAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.rightAnchor : constraint.to.rightAnchor
+                nsConstraints.append(constraint.from.rightAnchor.constraint(equalTo: fromRightAnchor, constant: constraint.constant))
+                let fromBottomAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.bottomAnchor : constraint.to.bottomAnchor
+                nsConstraints.append(constraint.from.bottomAnchor.constraint(equalTo: fromBottomAnchor, constant: constraint.constant))
+            case .horizontal:
+                let fromLeftAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.leftAnchor : constraint.to.leftAnchor
+                nsConstraints.append(constraint.from.leftAnchor.constraint(equalTo: fromLeftAnchor, constant: constraint.constant))
+                let fromRightAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.rightAnchor : constraint.to.rightAnchor
+                nsConstraints.append(constraint.from.rightAnchor.constraint(equalTo: fromRightAnchor, constant: constraint.constant))
+            case .vertical:
+                let fromTopAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.topAnchor : constraint.to.topAnchor
+                nsConstraints.append(constraint.from.topAnchor.constraint(equalTo: fromTopAnchor, constant: constraint.constant))
+                let fromBottomAnchor = constraint.needSafeAreaLayout ? constraint.to.safeAreaLayoutGuide.bottomAnchor : constraint.to.bottomAnchor
+                nsConstraints.append(constraint.from.bottomAnchor.constraint(equalTo: fromBottomAnchor, constant: constraint.constant))
             }
-            nsConstraint.isActive = true
+            NSLayoutConstraint.activate(nsConstraints)
         }
     }
     
@@ -175,6 +203,9 @@ internal enum AnchorAttribute {
     case lastBaseLine
     case leading
     case trailing
+    case edges
+    case horizontal
+    case vertical
 }
 
 public class ConstraintAnchor {
