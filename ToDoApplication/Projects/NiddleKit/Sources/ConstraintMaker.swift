@@ -1,24 +1,12 @@
 //
-//  Niddle.swift
-//  ProjectDescriptionHelpers
+//  ConstraintMaker.swift
+//  NiddleKit
 //
 //  Created by hong on 2023/08/31.
+//  Copyright © 2023 co.godo. All rights reserved.
 //
 
 import UIKit
-
-extension UIView {
-
-    public var ndl: ConstraintDSL {
-       return ConstraintDSL(view: self)
-    }
-    
-    @available(*, deprecated, renamed:"ndl.makeConstraints(_:)")
-    public func ndl_makeConstraints(_ closure: (_ make: ConstraintMaker) -> Void) {
-        self.ndl.makeConstraints(closure)
-    }
-
-}
 
 public class ConstraintMaker {
     
@@ -173,95 +161,4 @@ public class ConstraintMaker {
         self.anchors.append(constraintAnchor)
         return constraintAnchor
     }
-}
-
-public struct ConstraintDSL {
-    
-    private let view: UIView
-
-    internal init(view: UIView) {
-        view.translatesAutoresizingMaskIntoConstraints = false
-        self.view = view
-    }
-    
-    public func makeConstraints(_ closure: (_ make: ConstraintMaker) -> Void) {
-        return ConstraintMaker.makeConstraint(view: self.view, closure: closure)
-    }
-}
-
-
-internal enum AnchorAttribute {
-    case top
-    case bottom
-    case left
-    case right
-    case width
-    case heigth
-    case centerX
-    case CenterY
-    case firstBaseLine
-    case lastBaseLine
-    case leading
-    case trailing
-    case edges
-    case horizontal
-    case vertical
-}
-
-public class ConstraintAnchor {
-
-    internal let type: AnchorAttribute
-    internal var needSafeAreaLayoutGuide: Bool = false
-    internal var to: UIView?
-    internal var constant: CGFloat = 0.0
-    
-    internal init(type: AnchorAttribute) {
-        self.type = type
-    }
-
-    @discardableResult
-    public func equalTo(_ view: UIView, needSafeAreaLayoutGuide: Bool = false) -> ConstraintRelate {
-        self.needSafeAreaLayoutGuide = needSafeAreaLayoutGuide
-        self.to = view
-        return ConstraintRelate(constraintAnchor: self)
-    }
-    
-    @discardableResult
-    public func equalTo(_ constant: CGFloat) -> ConstraintRelate {
-        self.constant = constant
-        return ConstraintRelate(constraintAnchor: self)
-    }
-}
-
-public class ConstraintRelate {
-    
-    private let constraintAnchor: ConstraintAnchor
-    
-    internal init(constraintAnchor: ConstraintAnchor) {
-        self.constraintAnchor = constraintAnchor
-    }
-    
-    @discardableResult
-    internal func constant(_ constant: CGFloat) -> ConstraintRelate {
-        self.constraintAnchor.constant += constant
-        return self
-    }
-}
-
-public class Constraint {
-    
-    internal let type: AnchorAttribute
-    internal let from: UIView
-    internal let to: UIView
-    internal let constant: CGFloat
-    internal let needSafeAreaLayout: Bool
-    
-    internal init(type: AnchorAttribute, from: UIView, to: UIView, constant: CGFloat, needSafeAreaLayout: Bool) {
-        self.type = type
-        self.from = from
-        self.to = to
-        self.constant = constant
-        self.needSafeAreaLayout = needSafeAreaLayout
-    }
-
 }
