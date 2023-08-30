@@ -1,8 +1,8 @@
 //
-//  ConstraintView.swift
+//  Niddle.swift
+//  ProjectDescriptionHelpers
 //
-//  Created by hong on 2023/08/29.
-//  Copyright © 2023 co.godo. All rights reserved.
+//  Created by hong on 2023/08/31.
 //
 
 import UIKit
@@ -215,19 +215,19 @@ public class ConstraintAnchor {
     internal var to: UIView?
     internal var constant: CGFloat = 0.0
     
-    init(type: AnchorAttribute) {
+    internal init(type: AnchorAttribute) {
         self.type = type
     }
 
     @discardableResult
-    func equalTo(_ view: UIView, needSafeAreaLayoutGuide: Bool = false) -> ConstraintRelate {
+    public func equalTo(_ view: UIView, needSafeAreaLayoutGuide: Bool = false) -> ConstraintRelate {
         self.needSafeAreaLayoutGuide = needSafeAreaLayoutGuide
         self.to = view
         return ConstraintRelate(constraintAnchor: self)
     }
     
     @discardableResult
-    func equalTo(_ constant: CGFloat) -> ConstraintRelate {
+    public func equalTo(_ constant: CGFloat) -> ConstraintRelate {
         self.constant = constant
         return ConstraintRelate(constraintAnchor: self)
     }

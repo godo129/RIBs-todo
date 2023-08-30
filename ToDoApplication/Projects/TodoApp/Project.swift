@@ -11,7 +11,8 @@ let project = Project.makeModule(
         .project(target: "ThirdPartyLib", path: .relativeToRoot("Projects/ThirdPartyLib")),
         .project(target: "NetworkProvider", path: .relativeToRoot("Projects/NetworkProvider")),
         .project(target: "LocalProvider", path: .relativeToRoot("Projects/LocalProvider")),
-        .project(target: "And", path: .relativeToRoot("Projects/And"))
+        .project(target: "And", path: .relativeToRoot("Projects/And")),
+        .project(target: "NiddleKit", path: .relativeToRoot("Projects/NiddleKit"))
     ],
     resources: ["Resources/**"],
 //    infoPlist: .file(path: "Derived/InfoPlists/TodoApp-Info.plist"),
