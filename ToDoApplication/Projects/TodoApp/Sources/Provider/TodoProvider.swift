@@ -25,7 +25,7 @@ final class TodoProvider: TodoProviderProtocol {
     }
     
     func delete(todo: Todo) -> [Todo]? {
-        guard let indexOfTodo = todoList.firstIndex(where: { $0 === todo }) else {return nil}
+        guard let indexOfTodo = todoList.firstIndex(where: { $0 == todo }) else {return nil}
         todoList.remove(at: indexOfTodo)
         return todoList
     }
@@ -36,7 +36,7 @@ final class TodoProvider: TodoProviderProtocol {
     }
     
     func update(from: Todo, to: Todo) -> [Todo]? {
-        guard let indexOfTodo = todoList.firstIndex(where: { $0 === from }) else {return nil}
+        guard let indexOfTodo = todoList.firstIndex(where: { $0 == from }) else {return nil}
         todoList[indexOfTodo] = to
         return todoList
     }

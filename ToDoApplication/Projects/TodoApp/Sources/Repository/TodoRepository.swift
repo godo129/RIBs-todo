@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import LocalProvider
 
 protocol TodoRepositoryProtocol {
     func getAllTodoList() -> [Todo]
@@ -19,34 +20,72 @@ protocol TodoRepositoryProtocol {
 struct TodoRepository: TodoRepositoryProtocol {
     
     private let todoProvider: TodoProviderProtocol
+    private let plistProvider: LocalProviderProtocol = PlistProvider<LocalTargetType>()
+    private let userDefaultsProvider: LocalProviderProtocol = UserDefaultsProvider<LocalTargetType>()
+    private let nsCacheProvider: LocalProviderProtocol = NSCacheProvider<LocalTargetType>()
     
     init(todoProvider: TodoProviderProtocol) {
         self.todoProvider = todoProvider
     }
     
     func getAllTodoList() -> [Todo] {
-        return todoProvider.getTodoList()
+//        if let nsCachedData = try? nsCacheProvider.read(LocalTargetType.todo()) {
+//            return nsCachedData as! [Todo]
+//        }
+//        if let userDefaultsData = try? userDefaultsProvider.read(LocalTargetType.todo()) {
+//            return userDefaultsData as! [Todo]
+//        }
+        if let plistProvider = try? plistProvider.read(LocalTargetType.todo()) {
+            return plistProvider as! [Todo]
+        }
+        return []
     }
     
     func getCompletTodoList() -> [Todo] {
-        return todoProvider.getTodoList().filter { $0.isCompleted == true }
+        return getAllTodoList().filter { $0.isCompleted == true }
     }
     
     func getNotCompletTodoList() -> [Todo] {
-        return todoProvider.getTodoList().filter { $0.isCompleted == false }
+        return getAllTodoList().filter { $0.isCompleted == false }
     }
     
-    @discardableResult
+
     func insertTodo(_ todo: Todo) -> [Todo] {
-        return todoProvider.insert(todo: todo)
+        var todoList = getAllTodoList()
+        todoList.append(todo)
+        do {
+            try plistProvider.create(LocalTargetType.todo(todoList))
+            return getAllTodoList()
+        } catch {
+            print(error)
+            return []
+        }
     }
     
     func deleteTodo(_ todo: Todo) -> [Todo]? {
-        return todoProvider.delete(todo: todo)
+        var todoList = getAllTodoList()
+        guard let todoIndex = todoList.firstIndex(where: { $0 == todo }) else { return nil }
+        todoList.remove(at: todoIndex)
+        do {
+            try plistProvider.create(LocalTargetType.todo(todoList))
+            return getAllTodoList()
+        } catch {
+            print(error)
+            return nil
+        }
     }
     
     func updateTodo(from: Todo, to: Todo) -> [Todo]? {
-        return todoProvider.update(from: from, to: to)
+        var todoList = getAllTodoList()
+        guard let todoIndex = todoList.firstIndex(where: { $0 == from }) else { return nil }
+        todoList[todoIndex] = to
+        do {
+            try plistProvider.create(LocalTargetType.todo(todoList))
+            return getAllTodoList()
+        } catch {
+            print(error)
+            return nil
+        }
     }
     
 }

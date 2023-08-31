@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class Todo: Codable {
+struct Todo: Codable, Equatable {
     var title: String
     var context: String
     var image: Data?
@@ -23,6 +23,6 @@ public final class Todo: Codable {
     }
 }
 
-public extension Todo{
+extension Todo{
     static var mock = Todo(title: "테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트", context: "테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트", targetTime: Date())
 }

@@ -9,13 +9,13 @@
 import Foundation
 import LocalProvider
 
-public enum LocalTargetType: LocalStorable {
+enum LocalTargetType: LocalStorable {
 
-    case todo(_ todo: Todo? = nil)
+    case todo(_ todo: [Todo]? = nil)
     case catImage(_ imageDatas: [Data]? = nil)
     case dogImage(_ IamgeDatas: [Data]? = nil)
     
-    public var identifier: String {
+    var identifier: String {
         switch self {
         case .todo:
             return "Todo"
@@ -26,7 +26,7 @@ public enum LocalTargetType: LocalStorable {
         }
     }
     
-    public var encodeType: Encodable.Type? {
+    var encodeType: Encodable.Type? {
         switch self{
         case .todo:
             return nil
@@ -35,16 +35,16 @@ public enum LocalTargetType: LocalStorable {
         }
     }
     
-    public var decodeType: Decodable.Type? {
+    var decodeType: Decodable.Type? {
         switch self {
         case .todo:
-            return Todo.self
+            return [Todo].self
         case .catImage, .dogImage:
             return [Data].self
         }
     }
     
-    public var enocodeData: Encodable? {
+    var enocodeData: Encodable? {
         switch self {
         case let .todo(todo):
             return todo
