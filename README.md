@@ -12,42 +12,58 @@ Tuist 를 이용한 모듈화를 진행했습니다.
 
 ### MVC
 
-![Untitled (29)](https://github.com/godo129/RIBs-todo/assets/76652929/7a6bf7af-872b-4a5b-bbc8-eba0a49b1f8f)
+
+![Untitled (29)](https://github.com/godo129/RIBs-todo/assets/76652929/f01dc66d-01a3-48b6-b960-a432e24fdff9)
+
 
 - MVC 를 사용하면 ViewController 의 크기 비대해지는 문제가 생기게 되고, 논리적인 부분이 너무 걸쳐 있어서 관리하기도 어렵고 중복된 코드가 발생하는 경우가 많았습니다.
 - 물론 크기가 작은 프로젝트에서는 MVC 를 사용해도 괜찮지만 MVC 는 View 와 이를 보여주는 로직이 존재하는 한 적합한 패턴이라고 생각하다고 느끼진 못 했습니다.
 
 ### MVVM
 
-![Untitled (30)](https://github.com/godo129/RIBs-todo/assets/76652929/c748502a-906c-4c7c-a85e-9731955b99de)
+
+![Untitled (30)](https://github.com/godo129/RIBs-todo/assets/76652929/b8534039-769c-4948-a1eb-351a6d31f56a)
+
 
 - MVVM 은 ViewController 에서의 로직에 해당하는 부분을 ViewModel 에 분리한 형태, 그러나 이것은 이렇게 써야 한다라는 특별하게 정의된 패턴이 없다보니 개발자마다 다들 자신만의 방식으로 만들다보니 통합하기 어려운 모습이 보였습니다.
 - 그러다보니 많은 사람들이 코드를 작성할 때 어떤형식으로 만들지에 대한 약속을 해야하고 그렇지 않으면 관리하기 힘든 모습을 보일 수 있다고 생각하게 되었습니다.
 
 ### TCA
 
-![Untitled (31)](https://github.com/godo129/RIBs-todo/assets/76652929/1fb52a16-d805-451b-ab12-62a6cd7dcf4b)
+
+![Untitled (31)](https://github.com/godo129/RIBs-todo/assets/76652929/a1c20eb1-18a6-40a0-b3e0-86377c5eef27)
+
 
 - TCA는 ViewStore 을 이용해서 뷰의 Action 에 따라 Effect 가 발생하게 되고 이에 따라서 State 가 변경 되는 형태로 구성되어 있습니다. 찾아보니 Flux 패턴이 있던데 이와 비슷한 방식인 것 같습니다.
-<img width="604" alt="Untitled (32)" src="https://github.com/godo129/RIBs-todo/assets/76652929/139ac8bb-4561-4be4-bbc8-76856e9f829a">
+
+
+<img width="604" alt="Untitled (32)" src="https://github.com/godo129/RIBs-todo/assets/76652929/659d1f38-e115-4555-9f60-c3a8b86cfc3c">
+
 
   위는 제가 TCA 를 적용해서 만든 코드입니다. 
     
 - 프레임워크여서 이미 정해진 규칙이 있기 때문에 MVVM 보다 더 일관적으로 코드를 유지할 수 있다고 생각하게 되었습니다. 하지만
 
-![Untitled (33)](https://github.com/godo129/RIBs-todo/assets/76652929/b744549c-de1c-43fb-a11f-7dede1c832a2)
+
+![Untitled (33)](https://github.com/godo129/RIBs-todo/assets/76652929/939c060c-f92f-4b98-af9f-6ad146c18796)
+
 
 ViewStore 이 ObservableObject 라는 프로토콜을 채택하고 있고 이것은 Combine 와 관련이 있는 부분이기 때문에 RxSwift 를 사용하는 프로젝트에서는 TCA 를 적용하면 조금은 생각을 해봐야 될 것 같다고 생각하게 되었습니다. 
 
 ### RIBs
 
-![Untitled (34)](https://github.com/godo129/RIBs-todo/assets/76652929/e39bf8ba-1e76-42ed-8638-fdba016e61c3)
+
+![Untitled (34)](https://github.com/godo129/RIBs-todo/assets/76652929/b064918f-56c6-43d1-b6da-c5a67624e81d)
+
+
 
 - RIBs 는 Router, Interactor 및 Builder 의 약자로써 Builder 은 RIB 들을 만드는 것을 뜻하고, Router 은 뷰간의 전환을 Interactor 은 View 에서 발생한  이벤트들을 처리하는 부분을 뜻합니다. 그리고 Presenter 와 View 는 각각 ViewModel 과 ViewController 의 역할을 할 수 있는 부부입니다. Component 는 의존선 부분이라고 보면 됩니다.
 - 이 RIBs 또한 프레임워크기 때문에 정해진 패턴이 존재합니다. 그리고 Uber 에서 만든 cross-platform 모바일 아키텍쳐 프레임워크 이기 때문에 다른 모바일 기기에서도 이 패턴을 사용할 수 있다고 합니다. 상당히 많은 회사에서 RIBs 로 전환을 하는 아티클이나 글들이 많아서 자료가 풍부하다고 느꼈습니다.
 - 하지만 기본적으로 Builder, Router, Ineteractor, View, Component 가 무조건 있어야 해서 하나의 뷰를 만드는 데 거의 반강제적으로 4개의 파일이 생겨서 관리하기 매우 어려울 수 있는 단점이 있습니다. 그리고 UIKit 을 기반으로 만들어졌기 때문에 SwiftUI 에선 사용하는 게 큰 이점이 없다고 느꼈습니다.
 
-<img width="324" alt="Untitled (35)" src="https://github.com/godo129/RIBs-todo/assets/76652929/8e414dd1-ae42-4dcf-ad5f-049715e35d09">
+
+<img width="324" alt="Untitled (35)" src="https://github.com/godo129/RIBs-todo/assets/76652929/977c8010-b04c-4e18-9c25-d39abfd633f9">
+
 
 
 ## 그래서 RIBs 를 선택한 이유
@@ -64,11 +80,17 @@ UIKit을 이용할 때도  MVVM 과 같이 따로 관리할 수 있는 방법을
 
 협업시에 .pbxproj 에 충돌이 일어나게 되는 데 이 부분을 Tuist 를 이용하면 줄일 수 있고, 
 
-![Untitled (36)](https://github.com/godo129/RIBs-todo/assets/76652929/942e196a-16c0-4d80-86a2-6fbf4c8e5390)
+
+![Untitled (36)](https://github.com/godo129/RIBs-todo/assets/76652929/64e9dddf-e74f-4c6d-bc9c-eab734f035e0)
+
+
 
 외부 라이브러리 사용시 Tuist 를 이용하면 버전 관리하기도 쉽고 모듈간의 의존성을 이미지로 만들어주어서 의존선들을 파악하기 쉬운 장점을 가지고 있어서 사용하였습니다. 
 
-![Untitled (37)](https://github.com/godo129/RIBs-todo/assets/76652929/8a702645-312a-4d2c-82c8-ed4f3bc7c1bb)
+
+![Untitled (37)](https://github.com/godo129/RIBs-todo/assets/76652929/946488b5-df63-462d-b899-242eaa654d28)
+
+
 
 
 # 추상화를 적용한 Provider 생성
@@ -364,7 +386,10 @@ public class ConstraintRelate {
 }
 ```
 
-<img width="506" alt="Untitled (38)" src="https://github.com/godo129/RIBs-todo/assets/76652929/b7500dd1-6421-4d34-aaa2-64e5ef4d6843">
+
+<img width="506" alt="Untitled (38)" src="https://github.com/godo129/RIBs-todo/assets/76652929/5c05c460-9b06-4d10-922c-4f0dfae9b53a">
+
+
 
 
 ## And
@@ -385,7 +410,9 @@ extension And where Self: AnyObject {
 extension NSObject: And {}
 ```
 
-<img width="651" alt="Untitled (39)" src="https://github.com/godo129/RIBs-todo/assets/76652929/b58b56f3-00cb-43f7-908f-774aae1d9308">
+
+<img width="651" alt="Untitled (39)" src="https://github.com/godo129/RIBs-todo/assets/76652929/56b8a9c0-675f-47fa-a39f-f207a5959b61">
+
 
 
 결과적으로 각각의 프레임워크가 어떻게 구성 되는 지 알게 되었고, 접근 제어자에 대해 이해할 수 있게 되었습니다.  
@@ -395,33 +422,40 @@ extension NSObject: And {}
 - 네트워크 통신을 담당하는 NetworkProvider 와 Plist, UserDefaults, NsCahce 를 관리할 수 있는 LocalProvider 그리고 레이아웃 설정을 쉽게 해주는 NideelKit, 인스턴스 정의를 쉽게 해주는 And 으로 모듈을 나눴습니다.
 - 모듈화를 한 뒤 각각의 모듈들의 UnitTest 를 진행할 수 있어서 테스트 가능하고, 재사용 가능하도록 만들었습니다.
 
-![Untitled (40)](https://github.com/godo129/RIBs-todo/assets/76652929/37dc1a54-a785-4f83-b8d8-16478f54dd3e)
 
-<img width="441" alt="Untitled (41)" src="https://github.com/godo129/RIBs-todo/assets/76652929/f4a2eff1-e599-41da-8cb0-d2a2e62e3c76">
+![Untitled (40)](https://github.com/godo129/RIBs-todo/assets/76652929/cc41fe00-4b4f-4e25-ac6a-6f7b6c89a6f9)
+
+
+<img width="441" alt="Untitled (41)" src="https://github.com/godo129/RIBs-todo/assets/76652929/97162499-b969-4c09-8b29-cf67482b3d36">
+
 
 
 # **환경별 Build 세팅**
 
 - TodoApp-Dog 와 TodoApp-Cat 이라는 두 가지의 Build 환경을 만들었습니다.
     
-<img width="648" alt="Untitled (42)" src="https://github.com/godo129/RIBs-todo/assets/76652929/eaaef69e-47c1-49ff-af69-9dd303de0e1a">
+
+<img width="648" alt="Untitled (42)" src="https://github.com/godo129/RIBs-todo/assets/76652929/da8b7aca-e6e2-4e17-a2aa-580ef6a4b5a1">
 
 
-  <img width="454" alt="Untitled (45)" src="https://github.com/godo129/RIBs-todo/assets/76652929/e1be62f7-37f5-414b-a3cb-853d435dccc2">
+
+<img width="454" alt="Untitled (45)" src="https://github.com/godo129/RIBs-todo/assets/76652929/bac99935-cbf7-4736-8844-b7fbbd619671">
 
 
     
 - 두 환경을 구분할 수 있도록 설정을 해주었습니다.
 
 
-     <img width="528" alt="Untitled (43)" src="https://github.com/godo129/RIBs-todo/assets/76652929/21572d42-a2f1-4be5-bfdf-a625e4c9b2c1">
+<img width="528" alt="Untitled (43)" src="https://github.com/godo129/RIBs-todo/assets/76652929/f222250e-89df-4c85-8028-ad3ecdc37b7f">
 
-    
-<img width="512" alt="Untitled (44)" src="https://github.com/godo129/RIBs-todo/assets/76652929/ee0a9d16-7434-47c9-9083-f02a528c92a8">
+
+<img width="512" alt="Untitled (44)" src="https://github.com/godo129/RIBs-todo/assets/76652929/bd0dbcf1-eb1b-4f0a-80e9-458371ac8b3b">
 
 
 
 - 두 빌드 환경에 따라 서로 다른 API 콜을 진행할 수 있도록 만들었고 각각 개와 고양이 사진이 나오도록 하였습니다.
   
   
-![Simulator Screen Recording - iPhone 14 Pro Max - 2023-08-31 at 19 56 44](https://github.com/godo129/RIBs-todo/assets/76652929/1019a8cd-f3e6-4e47-9197-a4af5f9617a7)
+![Simulator Screen Recording - iPhone 14 Pro Max - 2023-08-31 at 19 56 44](https://github.com/godo129/RIBs-todo/assets/76652929/43e3abe1-a7d2-44fc-94bb-448bd01575ae)
+
+
