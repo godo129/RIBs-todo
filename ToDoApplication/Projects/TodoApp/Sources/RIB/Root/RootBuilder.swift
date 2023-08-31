@@ -40,6 +40,7 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
         let interactor = RootInteractor()
         let todoBuilder = TodoBuilder(dependency: dependency)
         let viewController = RootViewController(root: EmpthyViewController())
+        viewController.navigationBar.tintColor = .black
         return RootRouter(interactor: interactor, todoBuilder: todoBuilder, viewController: viewController)
     }
 }
