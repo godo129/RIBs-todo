@@ -7,6 +7,8 @@
 
 import UIKit
 import RIBs
+import LocalProvider
+import NetworkProvider
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -22,8 +24,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             self.window = window
-            let todoRepository = TodoRepository(todoProvider: TodoProvider.instance)
-            let imageRepository = ImageRepository(imageProvider: ImageProvider())
+            let todoRepository = TodoRepository(
+                todoProvider: TodoProvider.instance,
+                plistProvider: PlistProvider<LocalTargetType>(),
+                userDefaultsProvider: UserDefaultsProvider<LocalTargetType>(),
+                nsCacheProvider: NSCacheProvider<LocalTargetType>()
+            )
+            let imageRepository = ImageRepository(
+                imageProvider: ImageProvider(),
+                catAndDogProvider: NetworkProvider<CatAndDogAPI>(),
+                anyProvider: NetworkProvider<AnyAPI>(),
+                nsChacheProvider: NSCacheProvider<LocalTargetType>(),
+                plistProvider: PlistProvider<LocalTargetType>(),
+                userdefaultsProvier: UserDefaultsProvider<LocalTargetType>()
+            )
             let launchRouter = RootBuilder(dependency: AppComponent(
                 todoRepository: todoRepository,
                 imageRepository: imageRepository

@@ -20,12 +20,20 @@ protocol TodoRepositoryProtocol {
 struct TodoRepository: TodoRepositoryProtocol {
     
     private let todoProvider: TodoProviderProtocol
-    private let plistProvider: LocalProviderProtocol = PlistProvider<LocalTargetType>()
-    private let userDefaultsProvider: LocalProviderProtocol = UserDefaultsProvider<LocalTargetType>()
-    private let nsCacheProvider: LocalProviderProtocol = NSCacheProvider<LocalTargetType>()
+    private let plistProvider: LocalProviderProtocol
+    private let userDefaultsProvider: LocalProviderProtocol
+    private let nsCacheProvider: LocalProviderProtocol
     
-    init(todoProvider: TodoProviderProtocol) {
+    init(
+        todoProvider: TodoProviderProtocol,
+        plistProvider: LocalProviderProtocol,
+        userDefaultsProvider: LocalProviderProtocol,
+        nsCacheProvider: LocalProviderProtocol
+    ) {
         self.todoProvider = todoProvider
+        self.plistProvider = plistProvider
+        self.userDefaultsProvider = userDefaultsProvider
+        self.nsCacheProvider = nsCacheProvider
     }
     
     func getAllTodoList() -> [Todo] {
