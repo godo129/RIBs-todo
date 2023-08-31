@@ -28,7 +28,7 @@ final class TodoAddViewController: UIViewController, TodoAddPresentable, TodoAdd
     @IBOutlet weak var dateSelectButton: UIButton!
     @IBOutlet weak var todoTitleLabel: UITextField!
     @IBOutlet weak var todoContentLabel: UITextView!
-    @IBOutlet weak var todoImageSelectButton: UIButton!
+    @IBOutlet weak var todoImageView: UIImageView!
     private var selectedDate = Date()
     private let disposeBag = DisposeBag()
     private var cancellabels = Set<AnyCancellable>()
@@ -43,15 +43,12 @@ final class TodoAddViewController: UIViewController, TodoAddPresentable, TodoAdd
         NotificationCenter.default.removeObserver(self)
     }
     
-    @IBAction func todoImageSelectButtonTapped(_ sender: Any) {
-        listener?.photoSelectButtonTapped()
-    }
-    
     private func bind() {
         listener?.imageData
             .subscribe(onNext: { [weak self] imageData in
                 DispatchQueue.main.async {
-                    self?.todoImageSelectButton.setImage(UIImage(data: imageData)?.resize(targetSize: .init(width: 200, height: 200)), for: .normal)
+                    self?.todoImageView.image = UIImage(data: imageData)
+                    self?.todoImageView.roundCornersForAspectFit(radius: 20)
                 }
             })
             .disposed(by: disposeBag)
@@ -96,6 +93,8 @@ final class TodoAddViewController: UIViewController, TodoAddPresentable, TodoAdd
             self?.scrollView.contentInset = .zero
         }
         .store(in: &cancellabels)
+        todoImageView.isUserInteractionEnabled = true
+        todoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(todoImageViewSelect)))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "pencil"), style: .plain, target: self, action: #selector(addButtonTapped))
     }
     
@@ -116,8 +115,12 @@ final class TodoAddViewController: UIViewController, TodoAddPresentable, TodoAdd
 
 extension TodoAddViewController {
     
-    @objc func addButtonTapped() {
-        let todo = Todo(title: todoTitleLabel.text ?? "", context: todoContentLabel.text, image: todoImageSelectButton.imageView?.image?.jpegData(compressionQuality: 0.8), targetTime: selectedDate)
+    @objc private func addButtonTapped() {
+        let todo = Todo(title: todoTitleLabel.text ?? "", context: todoContentLabel.text, image: todoImageView.image?.pngData(), targetTime: selectedDate)
         listener?.saveButtonTapped(todo: todo)
+    }
+    
+    @objc private func todoImageViewSelect() {
+        listener?.photoSelectButtonTapped()
     }
 }
