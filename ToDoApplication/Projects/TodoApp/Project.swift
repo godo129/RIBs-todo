@@ -12,7 +12,7 @@ let project = Project.makeModule(
         .project(target: "NetworkProvider", path: .relativeToRoot("Projects/NetworkProvider")),
         .project(target: "LocalProvider", path: .relativeToRoot("Projects/LocalProvider")),
         .project(target: "And", path: .relativeToRoot("Projects/And")),
-        .project(target: "NiddleKit", path: .relativeToRoot("Projects/NiddleKit"))
+        .project(target: "NeedleKit", path: .relativeToRoot("Projects/NeedleKit"))
     ],
     resources: ["Resources/**"],
 //    infoPlist: .file(path: "Derived/InfoPlists/TodoApp-Info.plist"),
