@@ -34,14 +34,26 @@ struct ImageRepository: ImageRepositoryProtocol {
     }
     
     private let imageProvider: ImageProviderProtocol
-    private let catAndDogProvider = NetworkProvider<CatAndDogAPI>()
-    private let anyProvider = NetworkProvider<AnyAPI>()
-    private let nsChacheProvider: LocalProviderProtocol = NSCacheProvider<LocalTargetType>()
-    private let plistProvider: LocalProviderProtocol = PlistProvider<LocalTargetType>()
-    private let userdefaultsProvier: LocalProviderProtocol = UserDefaultsProvider<LocalTargetType>()
+    private let catAndDogProvider: NetworkProviderProtocol
+    private let anyProvider: NetworkProviderProtocol
+    private let nsChacheProvider: LocalProviderProtocol
+    private let plistProvider: LocalProviderProtocol
+    private let userdefaultsProvier: LocalProviderProtocol
     
-    init(imageProvider: ImageProviderProtocol) {
+    init(
+        imageProvider: ImageProviderProtocol,
+        catAndDogProvider: NetworkProviderProtocol,
+        anyProvider: NetworkProviderProtocol,
+        nsChacheProvider: LocalProviderProtocol,
+        plistProvider: LocalProviderProtocol,
+        userdefaultsProvier: LocalProviderProtocol
+    ) {
         self.imageProvider = imageProvider
+        self.catAndDogProvider = catAndDogProvider
+        self.anyProvider = anyProvider
+        self.nsChacheProvider = nsChacheProvider
+        self.plistProvider = plistProvider
+        self.userdefaultsProvier = userdefaultsProvier
     }
     
     func getPngData(_ viewController: UIViewController) async throws -> Data {
@@ -75,7 +87,7 @@ struct ImageRepository: ImageRepositoryProtocol {
     }
     
     private func getImageDataFromNetwork(_ url: String) async throws -> Data {
-        return try await anyProvider.request(.any(url: url, httpMethod: .get, data: nil, headers: nil, paramters: nil))
+        return try await anyProvider.request(AnyAPI.any(url: url, httpMethod: .get, data: nil, headers: nil, paramters: nil))
     }
      
     func getCatAndDogRandomImageDatas(_ type: CatAndDogAPI) async throws -> [Data] {

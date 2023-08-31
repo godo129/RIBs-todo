@@ -9,7 +9,11 @@
 import Foundation
 import Combine
 
-public struct NetworkProvider<T: RemoteTargetType> {
+public protocol NetworkProviderProtocol {
+    func request<T: RemoteTargetType>(_ type: T) async throws -> Data
+}
+
+public struct NetworkProvider<T: RemoteTargetType>: NetworkProviderProtocol {
     
     private enum NetworkProviderError: LocalizedError {
         case urlRequestDoesntExist
@@ -20,7 +24,7 @@ public struct NetworkProvider<T: RemoteTargetType> {
     
     public init() {}
     
-    public func request(_ type: T) async throws -> Data {
+    public func request<T: RemoteTargetType>(_ type: T) async throws -> Data {
         return try await withCheckedThrowingContinuation { continuation in
             guard let urlReqeust = type.asRequest() else {
                 continuation.resume(throwing: NetworkProviderError.urlRequestDoesntExist)

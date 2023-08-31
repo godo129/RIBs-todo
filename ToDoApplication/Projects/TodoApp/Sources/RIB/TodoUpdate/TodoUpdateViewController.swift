@@ -112,6 +112,7 @@ extension TodoUpdateViewController {
             .subscribe(onNext: { [weak self]imageData in
                 DispatchQueue.main.async {
                     self?.todoImageView.image = UIImage(data: imageData)
+                    self?.todoImageView.roundCornersForAspectFit(radius: 20)
                 }
             })
             .disposed(by: disposeBag)
@@ -157,11 +158,14 @@ extension TodoUpdateViewController {
             todoTargetDateButton.setTitle(selectedDate.yearMonthDateTime, for: .normal)
             return
         }
-        todoImageView.image = UIImage(data: todo.image ?? Data())
-        todoTitleTextField.text = todo.title
-        todoContextTextView.text = todo.context
-        selectedDate = todo.targetTime
-        todoTargetDateButton.setTitle(selectedDate.yearMonthDateTime, for: .normal)
+        DispatchQueue.main.async { [weak self] in
+            self?.todoImageView.image = UIImage(data: todo.image ?? Data())
+            self?.todoImageView.roundCornersForAspectFit(radius: 20)
+            self?.todoTitleTextField.text = todo.title
+            self?.todoContextTextView.text = todo.context
+            self?.selectedDate = todo.targetTime
+            self?.todoTargetDateButton.setTitle(self?.selectedDate.yearMonthDateTime, for: .normal)
+        }
     }
     
     private func layout() {
