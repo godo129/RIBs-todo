@@ -9,7 +9,7 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.makeModule(
-    name: "NiddleKit",
+    name: "NeedleKit",
     platform: .iOS,
     product: .staticLibrary,
     organizationName: "co.godo",
