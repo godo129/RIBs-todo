@@ -12,18 +12,26 @@ import LocalProvider
 public enum LocalTargetType: LocalStorable {
 
     case todo(_ todo: Todo? = nil)
+    case catImage(_ imageDatas: [Data]? = nil)
+    case dogImage(_ IamgeDatas: [Data]? = nil)
     
     public var identifier: String {
         switch self {
         case .todo:
             return "Todo"
+        case .catImage:
+            return "catImage"
+        case .dogImage:
+            return "dogImage"
         }
     }
     
     public var encodeType: Encodable.Type? {
         switch self{
         case .todo:
-            return Todo.self
+            return nil
+        case .catImage, .dogImage:
+            return nil
         }
     }
     
@@ -31,6 +39,8 @@ public enum LocalTargetType: LocalStorable {
         switch self {
         case .todo:
             return Todo.self
+        case .catImage, .dogImage:
+            return [Data].self
         }
     }
     
@@ -38,6 +48,8 @@ public enum LocalTargetType: LocalStorable {
         switch self {
         case let .todo(todo):
             return todo
+        case let .catImage(image), let .dogImage(image):
+            return image
         }
     }
 }

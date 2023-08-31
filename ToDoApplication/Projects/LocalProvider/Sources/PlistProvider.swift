@@ -19,6 +19,8 @@ public struct PlistProvider<T: LocalStorable> {
         case deocdableToObjectFaield
     }
     
+    public init() {}
+    
     fileprivate func plistPath(plistName: String = "Info") throws -> URL {
         guard let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             throw PlistProviderError.pathNotFound

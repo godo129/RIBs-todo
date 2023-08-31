@@ -19,7 +19,7 @@ public final class NSCacheProvider<T: LocalStorable> {
     }
     fileprivate var caches = NSCache<NSString, NSChacheData>()
     
-    init() {
+    public init() {
         caches.totalCostLimit = 5
     }
 }
