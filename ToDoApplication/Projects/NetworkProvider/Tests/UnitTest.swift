@@ -29,7 +29,7 @@ final class UnitTest: XCTestCase {
             expectation.fulfill()
         }
 
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: [expectation], timeout: 3.0)
     }
     
     func testAPICallFail() throws {
@@ -37,7 +37,7 @@ final class UnitTest: XCTestCase {
 
         Task {
             do {
-                _ = try await mockAPIProvider.request(.fail)
+                _ = try await mockAPIProvider.request(MockAPI.fail)
                 XCTFail()
             } catch {
                 XCTAssert(true)

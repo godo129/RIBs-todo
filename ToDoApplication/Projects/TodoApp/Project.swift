@@ -33,6 +33,5 @@ let project = Project.makeModule(
         ],
         "UIBackgroundModes": "remote-notification",
         "NSPhotoLibraryUsageDescription": "포토 라이브러리에 접근하기 위해 권한이 필요합니다."
-    ]),
-    additionalTargets: ["Resources"]
+    ])
 )
