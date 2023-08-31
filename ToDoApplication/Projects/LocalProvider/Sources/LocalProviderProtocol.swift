@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol LocalProviderProtocol {
+public protocol LocalProviderProtocol {
     func create<T: LocalStorable>(_ type: T) throws
     func read<T: LocalStorable>(_ type: T) throws -> Decodable
     func delete<T: LocalStorable>(_ type: T) throws

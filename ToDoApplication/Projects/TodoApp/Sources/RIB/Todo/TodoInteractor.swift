@@ -89,4 +89,15 @@ final class TodoInteractor: PresentableInteractor<TodoPresentable>, TodoInteract
         router?.routeToTodoList()
     }
 
+    func viewDidLoad() {
+        var randomImages: [Data]? = nil
+        #if Dog
+        randomImages = imageRepository.fetchCachedData(.dogImage())
+        #elseif Cat
+        randomImages = imageRepository.fetchCachedData(.catImage())
+        #endif
+        if let randomImages {
+            randomImageData.on(.next(randomImages))
+        }
+    }
 }

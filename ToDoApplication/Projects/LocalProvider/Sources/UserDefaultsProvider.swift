@@ -20,6 +20,8 @@ public struct UserDefaultsProvider<T: LocalStorable> {
     }
     
     private let userDefaults = UserDefaults.standard
+    
+    public init() {}
 }
 
 extension UserDefaultsProvider: LocalProviderProtocol {

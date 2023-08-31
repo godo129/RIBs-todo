@@ -8,11 +8,13 @@
 
 import UIKit
 import NetworkProvider
+import LocalProvider
 
 protocol ImageRepositoryProtocol {
     func getPngData(_ viewController: UIViewController) async throws -> Data
     func getPressedData(_ viewController: UIViewController, compressionRatio: CGFloat) async throws -> Data
     func getCatAndDogRandomImageDatas(_ type: CatAndDogAPI) async throws -> [Data]
+    func fetchCachedData(_ type: LocalTargetType) -> [Data]?
 }
 
 struct ImageRepository: ImageRepositoryProtocol {
@@ -34,6 +36,9 @@ struct ImageRepository: ImageRepositoryProtocol {
     private let imageProvider: ImageProviderProtocol
     private let catAndDogProvider = NetworkProvider<CatAndDogAPI>()
     private let anyProvider = NetworkProvider<AnyAPI>()
+    private let nsChacheProvider: LocalProviderProtocol = NSCacheProvider<LocalTargetType>()
+    private let plistProvider: LocalProviderProtocol = PlistProvider<LocalTargetType>()
+    private let userdefaultsProvier: LocalProviderProtocol = UserDefaultsProvider<LocalTargetType>()
     
     init(imageProvider: ImageProviderProtocol) {
         self.imageProvider = imageProvider
@@ -81,9 +86,38 @@ struct ImageRepository: ImageRepositoryProtocol {
                 let imageData = try await getImageDataFromNetwork(catAndDogRandomImage.url)
                 imageDatas.append(imageData)
             }
+            switch type {
+            case .catImageSearch:
+                cachingData(.catImage(imageDatas))
+            case .dogImageSearch:
+                cachingData(.dogImage(imageDatas))
+            }
             return imageDatas
         } catch {
             throw error
         }
+    }
+    
+    private func cachingData(_ type: LocalTargetType) {
+        do {
+            try nsChacheProvider.create(type)
+            try userdefaultsProvier.create(type)
+            try plistProvider.create(type)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func fetchCachedData(_ type: LocalTargetType) -> [Data]? {
+        if let cachedDatas = try? nsChacheProvider.read(type) {
+            return cachedDatas as? [Data]
+        }
+        if let userdefaultsCachedDatas = try? userdefaultsProvier.read(type) {
+            return userdefaultsCachedDatas as? [Data]
+        }
+        if let plistCachedDatas = try? plistProvider.read(type) {
+            return plistCachedDatas as? [Data]
+        }
+        return nil
     }
 }

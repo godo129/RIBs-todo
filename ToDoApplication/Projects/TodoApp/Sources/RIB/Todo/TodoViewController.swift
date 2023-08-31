@@ -13,6 +13,7 @@ protocol TodoPresentableListener: AnyObject {
     var completedTodos: PublishSubject<[Todo]> { get }
     var notCompletedTodos: PublishSubject<[Todo]> { get }
     var randomImageData: PublishSubject<[Data]> { get }
+    func viewDidLoad()
     func viewWillAppear()
     func completeListButtonTapped()
     func todoListButtonTapped()
@@ -92,6 +93,7 @@ extension TodoViewController {
         super.viewDidLoad()
         configure()
         bind()
+        listener?.viewDidLoad()
     }
 
     override func viewWillAppear(_ animated: Bool) {
