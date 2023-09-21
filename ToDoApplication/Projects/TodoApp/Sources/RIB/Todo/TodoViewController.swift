@@ -18,6 +18,7 @@ protocol TodoPresentableListener: AnyObject {
     func completeListButtonTapped()
     func todoListButtonTapped()
     func todoListAddButtonTapped()
+    func profilePageTapped()
 }
 
 final class TodoViewController: UIViewController, TodoPresentable, TodoViewControllable, ViewControllerInitiable {
@@ -27,6 +28,7 @@ final class TodoViewController: UIViewController, TodoPresentable, TodoViewContr
     @IBOutlet weak var todoCompletListView: UIStackView!
     @IBOutlet weak var todoListViewLabel: UILabel!
     @IBOutlet weak var todoCompleteListViewLabel: UILabel!
+    @IBOutlet weak var toProfileButton: UIButton!
     weak var listener: TodoPresentableListener?
     private let disposeBag = DisposeBag()
         
@@ -86,6 +88,10 @@ final class TodoViewController: UIViewController, TodoPresentable, TodoViewContr
         
     }
 
+    @IBAction func profileButtonTapped(_ sender: Any) {
+        print("profileButtonTapped")
+        listener?.profilePageTapped()
+    }
 }
 
 extension TodoViewController {

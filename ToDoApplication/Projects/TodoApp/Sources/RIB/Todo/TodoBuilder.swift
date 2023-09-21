@@ -8,7 +8,7 @@
 
 import RIBs
 
-protocol TodoDependency: Dependency, TodoCompleteDependency, TodoListDependency, TodoAddDependency {
+protocol TodoDependency: Dependency, TodoCompleteDependency, TodoListDependency, TodoAddDependency, ProfileViewDependency {
     var imageRepository: ImageRepositoryProtocol { get }
     var todoRepository: TodoRepositoryProtocol { get }
 }
@@ -46,13 +46,15 @@ final class TodoBuilder: Builder<TodoDependency>, TodoBuildable {
         let todoCompleteBuilder = TodoCompleteBuilder(dependency: dependency)
         let todoListBuilder = TodoListBuilder(dependency: dependency)
         let todoAddBuilder = TodoAddBuilder(dependency: dependency)
+        let profileBuilder = ProfileViewBuilder(dependency: dependency)
         interactor.listener = listener
         return TodoRouter(
             interactor: interactor,
             viewController: viewController as! TodoViewControllable,
             todoCompleteBuilder: todoCompleteBuilder,
             todoListBuilder: todoListBuilder,
-            todoAddBuilder: todoAddBuilder
+            todoAddBuilder: todoAddBuilder,
+            profileBuilder: profileBuilder
         )
     }
     

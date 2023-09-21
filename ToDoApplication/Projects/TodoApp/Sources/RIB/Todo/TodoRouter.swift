@@ -8,7 +8,7 @@
 
 import RIBs
 
-protocol TodoInteractable: Interactable, TodoCompleteListener, TodoListListener, TodoAddListener {
+protocol TodoInteractable: Interactable, TodoCompleteListener, TodoListListener, TodoAddListener, ProfileViewListener {
     var router: TodoRouting? { get set }
     var listener: TodoListener? { get set }
 }
@@ -22,17 +22,20 @@ final class TodoRouter: ViewableRouter<TodoInteractable, TodoViewControllable>, 
     private let todoCompleteBuilder: TodoCompleteBuildable
     private let todoListBuilder: TodoListBuildable
     private let todoAddBuilder: TodoAddBuildable
+    private let profileBuilder: ProfileViewBuildable
     
     init(
         interactor: TodoInteractable,
         viewController: TodoViewControllable,
         todoCompleteBuilder: TodoCompleteBuildable,
         todoListBuilder: TodoListBuildable,
-        todoAddBuilder: TodoAddBuildable
+        todoAddBuilder: TodoAddBuildable,
+        profileBuilder: ProfileViewBuildable
     ) {
         self.todoCompleteBuilder = todoCompleteBuilder
         self.todoListBuilder = todoListBuilder
         self.todoAddBuilder = todoAddBuilder
+        self.profileBuilder = profileBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -55,4 +58,9 @@ final class TodoRouter: ViewableRouter<TodoInteractable, TodoViewControllable>, 
         viewController.uiviewController.navigationController?.pushViewController(todoAddRouter.viewControllable.uiviewController, animated: true)
     }
     
+    func routeToProfile() {
+        let profileRouter = profileBuilder.build(withListener: interactor)
+        attachChild(profileRouter)
+        viewController.uiviewController.navigationController?.pushViewController(profileRouter.viewControllable.uiviewController, animated: true)
+    }
 }
