@@ -16,11 +16,6 @@ struct ProfileView: View {
     @State private var dogContents: [Data] = []
     @State private var selected: Int = 0
     private let imageRepository: ImageRepositoryProtocol
-    let columns: [GridItem] = [
-        GridItem(),
-        GridItem(),
-        GridItem()
-    ]
     
     init(imageRepository: ImageRepositoryProtocol) {
         self.imageRepository = imageRepository
@@ -116,23 +111,10 @@ struct ProfileView: View {
                 TapView(selected: $selected)
                 
                 if selected == 0 {
-                    LazyVGrid(columns: columns) {
-                        ForEach(catContents, id: \.self) { index in
-                            let content = index
-                            Image(uiImage: UIImage(data: content) ?? UIImage())
-                                .scaledToFill()
-                        }
-                    }
+                    cell(catContents)
                 } else {
-                    LazyVGrid(columns: columns) {
-                        ForEach(dogContents, id: \.self) { index in
-                            let content = index
-                            Image(uiImage: UIImage(data: content) ?? UIImage())
-                                .scaledToFill()
-                        }
-                    }
+                    cell(dogContents)
                 }
-                
                 
                 Spacer()
             }
@@ -146,6 +128,27 @@ struct ProfileView: View {
                 }
             }
         }
+    }
+    
+    private func cell(_ datas: [Data]) -> some View {
+        let columns: [GridItem] = [
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+            GridItem(.flexible())
+        ]
+        return LazyVGrid(columns: columns) {
+            ForEach(datas, id: \.self) { data in
+                Color.white
+                    .aspectRatio(1, contentMode: .fill)
+                    .overlay(
+                        Image(uiImage: UIImage(data: data) ?? UIImage())
+                            .resizable()
+                            .scaledToFill()
+                    ).clipped()
+                    .cornerRadius(4)
+            }
+        }
+
     }
 
 }
