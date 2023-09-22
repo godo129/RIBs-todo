@@ -7,6 +7,7 @@
 //
 
 import RIBs
+import UIKit
 
 protocol TodoInteractable: Interactable, TodoCompleteListener, TodoListListener, TodoAddListener, ProfileViewListener {
     var router: TodoRouting? { get set }
@@ -23,6 +24,9 @@ final class TodoRouter: ViewableRouter<TodoInteractable, TodoViewControllable>, 
     private let todoListBuilder: TodoListBuildable
     private let todoAddBuilder: TodoAddBuildable
     private let profileBuilder: ProfileViewBuildable
+    private var uiNavigationController: UINavigationController? {
+        viewController.uiviewController.navigationController
+    }
     
     init(
         interactor: TodoInteractable,
@@ -43,24 +47,18 @@ final class TodoRouter: ViewableRouter<TodoInteractable, TodoViewControllable>, 
     func routeToCompleList() {
         let todoCompleRouter = todoCompleteBuilder.build(withListener: interactor)
         attachChild(todoCompleRouter)
-        viewController.uiviewController.navigationController?.pushViewController(todoCompleRouter.viewControllable.uiviewController, animated: true)
+        uiNavigationController?.pushViewController(todoCompleRouter.viewControllable.uiviewController, animated: true)
     }
     
     func routeToTodoList() {
         let todoListRouter = todoListBuilder.build(withListener: interactor)
         attachChild(todoListRouter)
-        viewController.uiviewController.navigationController?.pushViewController(todoListRouter.viewControllable.uiviewController, animated: true)
+        uiNavigationController?.pushViewController(todoListRouter.viewControllable.uiviewController, animated: true)
     }
     
     func routeToTodoAdd() {
         let todoAddRouter = todoAddBuilder.build(withListener: interactor)
         attachChild(todoAddRouter)
-        viewController.uiviewController.navigationController?.pushViewController(todoAddRouter.viewControllable.uiviewController, animated: true)
-    }
-    
-    func routeToProfile() {
-        let profileRouter = profileBuilder.build(withListener: interactor)
-        attachChild(profileRouter)
-        viewController.uiviewController.navigationController?.pushViewController(profileRouter.viewControllable.uiviewController, animated: true)
+        uiNavigationController?.pushViewController(todoAddRouter.viewControllable.uiviewController, animated: true)
     }
 }

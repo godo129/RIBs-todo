@@ -14,7 +14,6 @@ protocol TodoRouting: ViewableRouting {
     func routeToCompleList()
     func routeToTodoList()
     func routeToTodoAdd()
-    func routeToProfile()
 }
 
 protocol TodoPresentable: Presentable {
@@ -100,9 +99,5 @@ final class TodoInteractor: PresentableInteractor<TodoPresentable>, TodoInteract
         if let randomImages {
             randomImageData.on(.next(randomImages))
         }
-    }
-    
-    func profilePageTapped() {
-        router?.routeToProfile()
     }
 }

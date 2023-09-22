@@ -17,7 +17,7 @@ final class RootComponent: Component<RootDependency> {
 
 }
 
-final class RootViewController: UINavigationController, RootViewControllable {
+final class RootViewController: UITabBarController, RootViewControllable {
    
 }
 
@@ -38,9 +38,9 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
     func build() -> LaunchRouting {
         let component = RootComponent(dependency: dependency)
         let interactor = RootInteractor()
-        let todoBuilder = TodoBuilder(dependency: dependency)
-        let viewController = RootViewController(root: EmpthyViewController())
-        viewController.navigationBar.tintColor = .black
-        return RootRouter(interactor: interactor, todoBuilder: todoBuilder, viewController: viewController)
+        let todoBuilder = TodoBuilder(dependency: component.dependency)
+        let profileBuilder = ProfileViewBuilder(dependency: component.dependency)
+        let tabBarController = RootViewController()
+        return RootRouter(interactor: interactor, todoBuilder: todoBuilder, profileBuilder: profileBuilder, viewController: tabBarController)
     }
 }

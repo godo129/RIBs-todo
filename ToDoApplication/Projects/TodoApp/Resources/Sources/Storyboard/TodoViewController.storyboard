@@ -21,11 +21,11 @@
                                 <rect key="frame" x="20" y="79" width="353" height="490"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Kw4-rU-lDa">
-                                        <rect key="frame" x="0.0" y="1.6666666666666714" width="353" height="187.33333333333331"/>
+                                        <rect key="frame" x="0.0" y="1.6666666666666572" width="353" height="287.33333333333337"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="eNq-wq-zfY">
-                                        <rect key="frame" x="0.0" y="190" width="353" height="200"/>
+                                        <rect key="frame" x="0.0" y="290" width="353" height="200"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="29Y-BW-eJd">
                                                 <rect key="frame" x="0.0" y="25" width="166.66666666666666" height="150"/>
@@ -112,17 +112,6 @@
                                             <constraint firstAttribute="height" constant="200" id="5yr-2y-s9d"/>
                                         </constraints>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4B3-Ye-ita">
-                                        <rect key="frame" x="0.0" y="390" width="353" height="100"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="100" id="Gqr-tH-0kw"/>
-                                        </constraints>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="프로필페이지로"/>
-                                        <connections>
-                                            <action selector="profileButtonTapped:" destination="bjr-gm-aOr" eventType="touchUpInside" id="uuG-eG-BOc"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -140,7 +129,6 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="mainPageImageView" destination="Kw4-rU-lDa" id="pJh-5G-4t8"/>
-                        <outlet property="toProfileButton" destination="4B3-Ye-ita" id="Cg2-xv-b2X"/>
                         <outlet property="todoCompletListView" destination="vgM-u7-DtS" id="Wj9-Qo-UVe"/>
                         <outlet property="todoCompleteListViewLabel" destination="0Ct-Mc-CMu" id="lem-aH-P0M"/>
                         <outlet property="todoListView" destination="29Y-BW-eJd" id="cCF-ak-F8p"/>

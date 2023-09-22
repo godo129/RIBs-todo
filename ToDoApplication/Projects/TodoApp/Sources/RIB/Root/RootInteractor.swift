@@ -11,7 +11,6 @@ import RxSwift
 
 protocol RootRouting: Routing {
     func cleanupViews()
-    func routeToToDo()
 }
 
 protocol RootListener: AnyObject {

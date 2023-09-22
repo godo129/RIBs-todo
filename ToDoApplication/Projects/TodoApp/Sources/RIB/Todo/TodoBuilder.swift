@@ -43,10 +43,10 @@ final class TodoBuilder: Builder<TodoDependency>, TodoBuildable {
             todoRepository: dependency.todoRepository,
             imageRepository: dependency.imageRepository
         )
-        let todoCompleteBuilder = TodoCompleteBuilder(dependency: dependency)
-        let todoListBuilder = TodoListBuilder(dependency: dependency)
-        let todoAddBuilder = TodoAddBuilder(dependency: dependency)
-        let profileBuilder = ProfileViewBuilder(dependency: dependency)
+        let todoCompleteBuilder = TodoCompleteBuilder(dependency: component.dependency)
+        let todoListBuilder = TodoListBuilder(dependency: component.dependency)
+        let todoAddBuilder = TodoAddBuilder(dependency: component.dependency)
+        let profileBuilder = ProfileViewBuilder(dependency: component.dependency)
         interactor.listener = listener
         return TodoRouter(
             interactor: interactor,
