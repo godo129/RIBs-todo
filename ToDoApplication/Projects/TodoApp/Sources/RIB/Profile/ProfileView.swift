@@ -64,13 +64,6 @@ struct ProfileView: View {
                         
                     } label: {
                         Text("Follow")
-                        //                        .frame(maxWidth: .infinity)
-                        //                        .frame(height: 30)
-                        //                        .overlay(
-                        //                            RoundedRectangle(cornerRadius: 4)
-                        //                                .fill(.blue)
-                        //                        )
-                        
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: 30)
